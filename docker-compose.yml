@@ -1,0 +1,33 @@
+# Hephaestus' Forge — perfil mínimo (frontend + backend + SQLite).
+# Soporta engines API y Ollama. Para engines CLI (Claude Code / Codex / Gemini),
+# usa modo nativo: ./run.sh
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - hephaestus_data:/app/data
+    environment:
+      - DATABASE_URL=sqlite:////app/data/hephaestus.db
+      - SECRET_KEY=${SECRET_KEY:-hephaestus-dev-key}
+      - CORS_ORIGINS=http://localhost:3000
+      # Para alcanzar un Ollama del host desde el contenedor:
+      - OLLAMA_URL=${OLLAMA_URL:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
+volumes:
+  hephaestus_data:

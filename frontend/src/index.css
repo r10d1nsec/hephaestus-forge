@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forge-bg: #0c0a09;
+  --color-forge-panel: #1c1917;
+  --color-forge-border: #292524;
+  --color-forge-ember: #f97316;
+  --color-forge-ember-soft: #fdba74;
+  --color-forge-steel: #a8a29e;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background: var(--color-forge-bg);
+  color: #e7e5e4;
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Resplandor de brasa para acentos */
+.ember-glow {
+  box-shadow: 0 0 24px -4px rgba(249, 115, 22, 0.45);
+}
+
+.prose-forge h1,
+.prose-forge h2,
+.prose-forge h3 {
+  color: #fafaf9;
+  font-weight: 700;
+  margin-top: 1.2em;
+  margin-bottom: 0.5em;
+}
+.prose-forge h1 { font-size: 1.6rem; }
+.prose-forge h2 { font-size: 1.3rem; }
+.prose-forge h3 { font-size: 1.1rem; }
+.prose-forge p { margin: 0.6em 0; line-height: 1.7; }
+.prose-forge ul { margin: 0.6em 0; padding-left: 1.4em; list-style: disc; }
+.prose-forge code {
+  background: #292524;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+.prose-forge pre {
+  background: #18181b;
+  padding: 1em;
+  border-radius: 8px;
+  overflow-x: auto;
+  border: 1px solid var(--color-forge-border);
+}
+.prose-forge table { border-collapse: collapse; margin: 0.8em 0; width: 100%; }
+.prose-forge th,
+.prose-forge td { border: 1px solid var(--color-forge-border); padding: 0.4em 0.7em; }
+.prose-forge th { background: #292524; }

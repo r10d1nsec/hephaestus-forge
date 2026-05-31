@@ -1,0 +1,103 @@
+---
+import type { Dict, Lang } from "../i18n";
+import { LANGS, LANG_LABELS } from "../i18n";
+import Base from "../layouts/Base.astro";
+
+interface Props { t: Dict }
+const { t } = Astro.props;
+
+const REPO = "https://github.com/angelroldanruiz/hephaestus-forge";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const langHref = (l: Lang) => (l === "en" ? `${base}/` : `${base}/${l}/`);
+---
+
+<Base t={t}>
+  <header class="wrap nav">
+    <a class="brand" href={`${base}/`}>🔥 Hephaestus<span>'</span> Forge</a>
+    <nav class="langs">
+      {LANGS.map((l) => (
+        <a href={langHref(l)} class={l === t.locale ? "on" : ""}>{LANG_LABELS[l]}</a>
+      ))}
+      <a class="ghlink" href={REPO}>GitHub ↗</a>
+    </nav>
+  </header>
+
+  <section class="wrap hero">
+    <span class="badge">{t.badge}</span>
+    <h1>{t.title}</h1>
+    <p class="sub">{t.subtitle}</p>
+    <div class="cta">
+      <a class="btn primary" href={REPO}>⭐ {t.ctaPrimary}</a>
+      <a class="btn ghost" href={`${REPO}#-quickstart`}>{t.ctaSecondary}</a>
+    </div>
+    <pre class="term"><span class="c">$</span> git clone {REPO}
+<span class="c">$</span> cd hephaestus-forge && ./run.sh
+<span class="ok">✓</span> http://localhost:3000 — engines detected from your PATH</pre>
+  </section>
+
+  <section class="wrap byo">
+    <h2>{t.byoTitle}</h2>
+    <p class="byo-sub">{t.byoSub}</p>
+    <div class="cards">
+      <div class="card"><div class="ic">🖥️</div><h3>{t.cli}</h3><p>{t.cliDesc}</p></div>
+      <div class="card"><div class="ic">☁️</div><h3>{t.apiP}</h3><p>{t.apiDesc}</p></div>
+      <div class="card"><div class="ic">🧊</div><h3>{t.local}</h3><p>{t.localDesc}</p></div>
+    </div>
+  </section>
+
+  <section class="wrap how">
+    <h2>{t.howTitle}</h2>
+    <ol>
+      {t.steps.map((s) => <li>{s}</li>)}
+    </ol>
+    <p class="privacy">🔒 {t.privacy}</p>
+  </section>
+
+  <footer class="wrap foot">
+    <a class="btn primary" href={REPO}>⭐ {t.ctaPrimary}</a>
+    <p>{t.footer} · © 2026 Angel Roldan</p>
+  </footer>
+</Base>
+
+<style>
+  .nav { display: flex; align-items: center; justify-content: space-between; padding-top: 24px; padding-bottom: 24px; }
+  .brand { font-weight: 800; font-size: 1.15rem; text-decoration: none; }
+  .brand span { color: var(--ember); }
+  .langs { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; font-size: 0.85rem; }
+  .langs a { color: var(--steel); text-decoration: none; }
+  .langs a.on { color: var(--ember-soft); }
+  .ghlink { font-weight: 600; }
+
+  .hero { text-align: center; padding: 70px 24px 50px; }
+  .badge {
+    display: inline-block; font-size: 0.78rem; color: var(--ember-soft);
+    border: 1px solid rgba(249,115,22,0.4); border-radius: 999px; padding: 6px 14px; margin-bottom: 26px;
+  }
+  h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.1; margin: 0 auto 18px; max-width: 18ch; color: #fafaf9; }
+  .sub { color: var(--steel); max-width: 60ch; margin: 0 auto 30px; font-size: 1.08rem; }
+  .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 38px; }
+  .btn { text-decoration: none; padding: 12px 22px; border-radius: 10px; font-weight: 600; font-size: 0.95rem; }
+  .btn.primary { background: var(--ember); color: #0c0a09; box-shadow: 0 0 28px -6px rgba(249,115,22,0.6); }
+  .btn.ghost { border: 1px solid var(--border); color: #e7e5e4; }
+
+  .term {
+    text-align: left; background: #18181b; border: 1px solid var(--border); border-radius: 12px;
+    padding: 18px 20px; max-width: 620px; margin: 0 auto; font-size: 0.86rem; overflow-x: auto;
+    font-family: ui-monospace, SFMono-Regular, monospace; color: #d6d3d1;
+  }
+  .term .c { color: var(--ember); } .term .ok { color: #34d399; }
+
+  section h2 { text-align: center; font-size: 1.9rem; color: #fafaf9; margin-top: 60px; }
+  .byo-sub { text-align: center; color: var(--steel); max-width: 56ch; margin: 0 auto 36px; }
+  .cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+  .card .ic { font-size: 1.6rem; } .card h3 { margin: 10px 0 6px; color: #fafaf9; }
+  .card p { color: var(--steel); margin: 0; font-size: 0.95rem; }
+
+  .how ol { max-width: 560px; margin: 26px auto 0; padding-left: 22px; }
+  .how li { margin: 10px 0; }
+  .privacy { text-align: center; color: var(--ember-soft); margin-top: 28px; }
+
+  .foot { text-align: center; padding: 70px 24px 60px; }
+  .foot p { color: var(--steel); font-size: 0.85rem; margin-top: 18px; }
+</style>
