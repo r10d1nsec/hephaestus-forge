@@ -28,6 +28,9 @@ jobs:
           node-version: "20"
       - run: npm install
       - run: npm run build
+        env:
+          LANDING_BASE: /hephaestus-forge
+          LANDING_SITE: https://r10d1nsec.github.io
       - uses: actions/upload-pages-artifact@v3
         with:
           path: landing/dist

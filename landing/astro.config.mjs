@@ -1,9 +1,10 @@
 import { defineConfig } from "astro/config";
 
-// GitHub Pages (project site). Adjust `site`/`base` if you use a custom domain.
+// Defaults are root-hosting (Vercel / custom domain). For a GitHub Pages *project*
+// site, the Pages workflow sets LANDING_BASE=/hephaestus-forge + LANDING_SITE.
 export default defineConfig({
-  site: "https://r10d1nsec.github.io",
-  base: process.env.LANDING_BASE ?? "/hephaestus-forge",
+  site: process.env.LANDING_SITE ?? "https://hephaestus-forge.vercel.app",
+  base: process.env.LANDING_BASE ?? "/",
   i18n: {
     defaultLocale: "en",
     locales: ["en", "zh", "es", "fr", "de"],
