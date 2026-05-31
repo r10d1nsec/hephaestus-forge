@@ -19,6 +19,7 @@ dist/
 .vite/
 *.local
 .eslintcache
+*.tsbuildinfo
 
 # --- Env / secrets ---
 .env

@@ -8,10 +8,11 @@ from sqlmodel import Session
 
 from models.session import WizardSession
 from services.engines import Engine
+from services.lang import DEFAULT_LANGUAGE, language_name
 from services.prompts import load_prompt
 
-# Orden de fases del MVP (las dos últimas quedan como scaffold).
-PHASE_ORDER = ["discovery", "scope", "technical", "goals"]
+# Flujo guiado de 5 fases: define, guía y clarifica antes de generar el plan.
+PHASE_ORDER = ["discovery", "audience", "solution_fit", "scope", "constraints"]
 PHASE_COMPLETE_TOKEN = "[[PHASE_COMPLETE]]"
 
 
@@ -30,11 +31,14 @@ async def next_question(
     session: WizardSession,
     raw_idea: str,
     db: Session,
+    lang: str = DEFAULT_LANGUAGE,
 ) -> AsyncIterator[str]:
     """Hace streaming de la siguiente pregunta. Persiste el mensaje del asistente."""
     messages = json.loads(session.messages or "[]")
     template = load_prompt(session.phase if session.phase in PHASE_ORDER else "discovery")
-    system = template.format(raw_idea=raw_idea, history=_format_history(messages))
+    system = template.format(
+        raw_idea=raw_idea, history=_format_history(messages), language=language_name(lang)
+    )
 
     collected: list[str] = []
     async for piece in engine.stream([{"role": "user", "content": "Continúa."}], system=system):

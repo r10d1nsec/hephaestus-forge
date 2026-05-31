@@ -64,24 +64,33 @@ cd hephaestus-forge
 ## 🛠️ How it works
 
 ```
-Describe your idea  →  Guided wizard (Discovery → Scope → …)  →  Generate docs  →  Export ZIP
-       💡                    🔥 your engine asks the right questions          📦 drop into your AI IDE
+Describe your idea → 5-phase guided wizard → Generate docs → Export ZIP
+       💡        Discovery·Audience·Solution-Fit·Scope·Constraints   📦 drop into your AI IDE
 ```
 
 1. **Describe** your idea in a sentence or a paragraph.
-2. **Answer** a short, AI-generated interview — one sharp question at a time, streamed live.
-3. **Generate** a documentation pack: **PRD · Technical Spec · Estimation Report**.
+2. **Answer** a short, AI-generated interview — one sharp question at a time, streamed live —
+   across five phases: **Discovery → Audience → Solution-Fit → Scope → Constraints**. This is what
+   lets Hephaestus recommend the *right kind* of solution (sometimes an **automation** or an
+   **agent** beats a web app) instead of assuming you need an app.
+3. **Generate** a documentation pack led by a **Project Blueprint** (recommended solution type,
+   scale, time, stages, scope) plus **PRD · Technical Spec · Estimation**.
 4. **Export** as a ZIP of clean Markdown, ready as context for your coding agent.
+
+> 🌍 The whole app is multilingual (EN · 中文 · ES · FR · DE). The language you pick also drives the
+> wizard questions and the generated documents.
 
 ## 📸 See it in action
 
-| Bring Your Own Engine | Real generated PRD |
+| Project Blueprint (solution type · scale · stages) | Multilingual UI (中文) |
 |---|---|
+| ![Project Blueprint](docs/screenshots/blueprint.png) | ![Dashboard in Chinese](docs/screenshots/dashboard-zh.png) |
+| **Bring Your Own Engine** | **Real generated PRD** |
 | ![Engines panel](docs/screenshots/engines.png) | ![Generated PRD](docs/screenshots/docs-en.png) |
 
-The **Engines** panel auto-detects CLI agents and is honest about it: *detected in PATH ≠
-authenticated* — you click **Test** to verify before using. The viewer renders real, build-ready
-Markdown.
+The **Blueprint** recommends the right *kind* of solution for your constraints. The **Engines**
+panel auto-detects CLI agents and is honest about it: *detected in PATH ≠ authenticated* — you
+click **Test** to verify before using.
 
 ## 📂 Examples (real output)
 
@@ -101,16 +110,18 @@ See [`examples/`](examples/README.md) for the breakdown.
 | One-command Docker | ❌ | ❌ | — | ✅ |
 | **CLI agents (Claude Code/Codex/Gemini)** | ❌ | ❌ | ❌ | ✅ |
 | Local models (Ollama) | ❌ | ❌ | ❌ | ✅ |
-| Guided wizard UI | ❌ | ❌ | ✅ | ✅ |
+| Guided wizard UI | ❌ | ❌ | ✅ | ✅ (5 phases) |
+| **Recommends solution type (automation/agent/web/app)** | ❌ | ❌ | ❌ | ✅ |
+| Multilingual app (EN/中文/ES/FR/DE) | ❌ | ❌ | ❌ | ✅ |
 | Honest time estimation | ❌ | ❌ | ❌ | ✅ |
 | Open source (MIT) | ✅ | ✅ | ❌ | ✅ |
 
 ## 🗺️ Roadmap
 
-- [x] **v0.1 — MVP**: Docker + native, Engines panel, wizard (Discovery + Scope), PRD/Tech Spec/Estimation, ZIP export
-- [ ] **v0.2**: full 4-phase wizard, User Flows (Mermaid), AI Prompts Pack, inline editor, PDF export
-- [ ] **v0.3**: version history, "Copy as Claude context", GitHub Gist export, project stats
-- [ ] **v1.0**: custom PRD templates, CLI companion, VS Code extension
+- [x] **v0.1 — MVP**: Docker + native, Engines panel, wizard, PRD/Tech Spec/Estimation, ZIP export
+- [x] **v0.2**: 5-phase wizard (Discovery·Audience·Solution-Fit·Scope·Constraints), **Project Blueprint** with solution-type recommendation, multilingual app (EN/中文/ES/FR/DE)
+- [ ] **v0.3**: User Flows (Mermaid), AI Prompts Pack, inline editor, version history, PDF export
+- [ ] **v1.0**: "Copy as Claude context", GitHub Gist export, custom templates, CLI companion, VS Code extension
 
 See [docs/ROADMAP](docs/) and [good first issues](https://github.com/r10d1nsec/hephaestus-forge/labels/good%20first%20issue).
 

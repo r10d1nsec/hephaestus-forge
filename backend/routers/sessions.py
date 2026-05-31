@@ -27,6 +27,10 @@ class AnswerIn(BaseModel):
     content: str
 
 
+class LangIn(BaseModel):
+    lang: str | None = None
+
+
 def _sse(payload: dict) -> str:
     return f"data: {json.dumps(payload, ensure_ascii=False)}\n\n"
 
@@ -59,18 +63,25 @@ def answer(session_id: str, body: AnswerIn, db: Session = Depends(get_session)) 
 
 
 @router.post("/api/sessions/{session_id}/next")
-async def next_message(session_id: str, db: Session = Depends(get_session)) -> StreamingResponse:
+async def next_message(
+    session_id: str,
+    body: LangIn | None = None,
+    db: Session = Depends(get_session),
+) -> StreamingResponse:
     """Hace streaming de la siguiente pregunta de la IA (SSE)."""
     session = db.get(WizardSession, session_id)
     if not session:
         raise HTTPException(404, "Sesión no encontrada")
     project = db.get(Project, session.project_id)
     engine = load_active_engine(db)
+    lang = body.lang if body and body.lang else "English"
 
     async def gen() -> AsyncIterator[str]:
         buffer: list[str] = []
         try:
-            async for piece in next_question(engine, session, project.raw_idea if project else "", db):
+            async for piece in next_question(
+                engine, session, project.raw_idea if project else "", db, lang=lang
+            ):
                 buffer.append(piece)
                 yield _sse({"delta": piece})
         except Exception as exc:  # noqa: BLE001

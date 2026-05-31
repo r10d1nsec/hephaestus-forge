@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Plus, FileText, Trash2, Flame } from "lucide-react";
 import { api, Project } from "../lib/api";
+import { useT } from "../i18n/useT";
 
 export default function Dashboard() {
+  const { t } = useT();
   const [projects, setProjects] = useState<Project[]>([]);
   const [engineReady, setEngineReady] = useState<boolean | null>(null);
   const nav = useNavigate();
@@ -22,16 +24,14 @@ export default function Dashboard() {
     <div className="mx-auto max-w-5xl px-8 py-10">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-stone-50">Tus proyectos</h1>
-          <p className="mt-1 text-sm text-forge-steel">
-            Forja una idea difusa en una especificación lista para construir.
-          </p>
+          <h1 className="text-2xl font-bold text-stone-50">{t("dash.title")}</h1>
+          <p className="mt-1 text-sm text-forge-steel">{t("dash.subtitle")}</p>
         </div>
         <button
           onClick={() => nav("/new")}
           className="ember-glow flex items-center gap-2 rounded-lg bg-forge-ember px-4 py-2 font-medium text-stone-950"
         >
-          <Plus size={18} /> Nueva idea
+          <Plus size={18} /> {t("dash.newIdea")}
         </button>
       </div>
 
@@ -40,7 +40,7 @@ export default function Dashboard() {
           to="/settings"
           className="mt-6 flex items-center gap-2 rounded-lg border border-forge-ember/40 bg-forge-ember/10 px-4 py-3 text-sm text-forge-ember-soft"
         >
-          <Flame size={16} /> Configura un engine antes de empezar →
+          <Flame size={16} /> {t("dash.configureEngine")}
         </Link>
       )}
 
@@ -63,13 +63,13 @@ export default function Dashboard() {
               </span>
               <div className="flex gap-3 text-sm">
                 <Link to={`/project/${p.id}/wizard`} className="text-forge-ember-soft hover:underline">
-                  Wizard
+                  {t("dash.wizard")}
                 </Link>
                 <Link
                   to={`/project/${p.id}/documents`}
                   className="flex items-center gap-1 text-forge-steel hover:text-stone-100"
                 >
-                  <FileText size={14} /> Docs
+                  <FileText size={14} /> {t("dash.docs")}
                 </Link>
               </div>
             </div>
@@ -77,7 +77,7 @@ export default function Dashboard() {
         ))}
         {projects.length === 0 && (
           <div className="col-span-full rounded-xl border border-dashed border-forge-border py-16 text-center text-forge-steel">
-            Aún no hay proyectos. Pulsa <span className="text-forge-ember-soft">Nueva idea</span> para empezar.
+            {t("dash.empty", { action: t("dash.newIdea") })}
           </div>
         )}
       </div>

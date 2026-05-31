@@ -96,7 +96,8 @@ export const api = {
 export function streamSSE(
   path: string,
   onEvent: (data: any) => void,
-  onDone?: () => void
+  onDone?: () => void,
+  body?: Record<string, unknown>
 ): AbortController {
   const controller = new AbortController();
   (async () => {
@@ -104,6 +105,7 @@ export function streamSSE(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal: controller.signal,
+      body: body ? JSON.stringify(body) : undefined,
     });
     const reader = res.body!.getReader();
     const decoder = new TextDecoder();

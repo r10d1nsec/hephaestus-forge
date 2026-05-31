@@ -42,4 +42,4 @@ Para cada feature:
 - Sé específico y concreto; evita generalidades.
 - Toda ambigüedad va a "Open Questions", no la inventes.
 - Devuelve SOLO el Markdown del documento, sin comentarios extra.
-- Responde en el mismo idioma que usó el usuario en el wizard.
+- Escribe TODO el documento SIEMPRE en este idioma: {language}

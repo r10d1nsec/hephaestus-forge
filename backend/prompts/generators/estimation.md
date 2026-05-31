@@ -34,4 +34,5 @@ X – Y horas de desarrollo
 ## RESTRICCIONES
 - Rangos realistas (min/max), nunca un único número mágico.
 - Identifica explícitamente los factores de riesgo que inflan el tiempo.
-- Devuelve SOLO el Markdown. Mismo idioma que el usuario.
+- Devuelve SOLO el Markdown del documento, sin comentarios extra.
+- Escribe TODO el documento SIEMPRE en este idioma: {language}

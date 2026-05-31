@@ -1,10 +1,12 @@
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { Flame, LayoutDashboard, Settings as SettingsIcon } from "lucide-react";
+import { Flame, LayoutDashboard, Languages, Settings as SettingsIcon } from "lucide-react";
 import Dashboard from "./pages/Dashboard";
 import NewIdea from "./pages/NewIdea";
 import Wizard from "./pages/Wizard";
 import Documents from "./pages/Documents";
 import Settings from "./pages/Settings";
+import { useT } from "./i18n/useT";
+import { LANGS, LANG_LABELS, Lang } from "./i18n";
 
 function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
   const loc = useLocation();
@@ -25,6 +27,7 @@ function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label
 }
 
 export default function App() {
+  const { t, lang, setLang } = useT();
   return (
     <div className="flex min-h-screen">
       <aside className="flex w-60 flex-col gap-1 border-r border-forge-border bg-forge-panel p-4">
@@ -34,10 +37,22 @@ export default function App() {
             Hephaestus<span className="text-forge-ember">'</span> Forge
           </span>
         </Link>
-        <NavItem to="/" icon={<LayoutDashboard size={18} />} label="Dashboard" />
-        <NavItem to="/settings" icon={<SettingsIcon size={18} />} label="Engines" />
-        <div className="mt-auto px-1 text-xs text-forge-steel/70">
-          v0.1.0 · 100% local
+        <NavItem to="/" icon={<LayoutDashboard size={18} />} label={t("nav.dashboard")} />
+        <NavItem to="/settings" icon={<SettingsIcon size={18} />} label={t("nav.engines")} />
+        <div className="mt-auto flex flex-col gap-3 px-1">
+          <label className="flex items-center gap-2 text-xs text-forge-steel">
+            <Languages size={15} />
+            <select
+              value={lang}
+              onChange={(e) => setLang(e.target.value as Lang)}
+              className="flex-1 rounded-md border border-forge-border bg-forge-bg px-2 py-1 text-stone-200"
+            >
+              {LANGS.map((l) => (
+                <option key={l} value={l}>{LANG_LABELS[l]}</option>
+              ))}
+            </select>
+          </label>
+          <span className="text-xs text-forge-steel/70">v0.1.0 · {t("nav.local")}</span>
         </div>
       </aside>
 

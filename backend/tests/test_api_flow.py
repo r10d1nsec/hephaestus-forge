@@ -44,10 +44,10 @@ def test_full_flow(client):
     client.post(f"/api/sessions/{sid}/answer", json={"content": "para corredores"})
 
     # 3. generar documentos (SSE) → persiste PRD/TechSpec/Estimation
-    g = client.post(f"/api/projects/{pid}/generate")
+    g = client.post(f"/api/projects/{pid}/generate", json={"lang": "English"})
     assert "all_done" in g.text
     docs = client.get(f"/api/projects/{pid}/documents").json()
-    assert {d["doc_type"] for d in docs} == {"prd", "tech_spec", "estimation"}
+    assert {d["doc_type"] for d in docs} == {"blueprint", "prd", "tech_spec", "estimation"}
 
     # 4. export ZIP
     z = client.get(f"/api/projects/{pid}/export/zip")

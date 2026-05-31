@@ -6,6 +6,7 @@ from collections.abc import AsyncIterator
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
+from pydantic import BaseModel
 from sqlmodel import Session, select
 
 from database import get_session
@@ -15,6 +16,10 @@ from services.engines import load_active_engine
 from services.generator_service import MVP_DOCUMENTS, generate_document
 
 router = APIRouter(tags=["documents"])
+
+
+class LangIn(BaseModel):
+    lang: str | None = None
 
 
 def _sse(payload: dict) -> str:
@@ -35,19 +40,24 @@ def get_document(document_id: str, db: Session = Depends(get_session)) -> Docume
 
 
 @router.post("/api/projects/{project_id}/generate")
-async def generate(project_id: str, db: Session = Depends(get_session)) -> StreamingResponse:
-    """Genera los documentos del MVP (PRD, Tech Spec, Estimation) en streaming SSE."""
+async def generate(
+    project_id: str,
+    body: LangIn | None = None,
+    db: Session = Depends(get_session),
+) -> StreamingResponse:
+    """Genera los documentos (Blueprint, PRD, Tech Spec, Estimation) en streaming SSE."""
     project = db.get(Project, project_id)
     if not project:
         raise HTTPException(404, "Proyecto no encontrado")
     engine = load_active_engine(db)
+    lang = body.lang if body and body.lang else "English"
 
     async def gen() -> AsyncIterator[str]:
         for doc_type in MVP_DOCUMENTS:
             yield _sse({"doc_start": doc_type})
             try:
                 async for piece in generate_document(
-                    engine, db, project_id, project.raw_idea, doc_type
+                    engine, db, project_id, project.raw_idea, doc_type, lang=lang
                 ):
                     yield _sse({"doc_type": doc_type, "delta": piece})
             except Exception as exc:  # noqa: BLE001

@@ -9,6 +9,7 @@ import {
   CircleDashed,
 } from "lucide-react";
 import { api, EngineConfig } from "../../lib/api";
+import { useT } from "../../i18n/useT";
 
 type Tab = "cli" | "api" | "ollama";
 
@@ -26,6 +27,7 @@ const CLI_META: Record<string, string> = {
 };
 
 export default function EngineManager() {
+  const { t } = useT();
   const [tab, setTab] = useState<Tab>("cli");
   const [clis, setClis] = useState<Record<string, boolean>>({});
   const [active, setActive] = useState<any>(null);
@@ -82,7 +84,7 @@ export default function EngineManager() {
     await api.setActiveEngine(cfg);
     const d = await api.detectEngines();
     setActive(d.active);
-    setResult({ ok: true, message: "Engine activado." });
+    setResult({ ok: true, message: t("em.activated") });
   }
 
   const TabButton = ({ id, icon, label }: { id: Tab; icon: React.ReactNode; label: string }) => (
@@ -101,7 +103,7 @@ export default function EngineManager() {
     <div className="space-y-6">
       {active && (
         <div className="rounded-lg border border-forge-ember/40 bg-forge-ember/10 px-4 py-3 text-sm">
-          <span className="text-forge-steel">Engine activo: </span>
+          <span className="text-forge-steel">{t("em.activeEngine")} </span>
           <span className="font-semibold text-forge-ember-soft">
             {active.kind} · {active.provider}
             {active.model ? ` · ${active.model}` : ""}
@@ -110,20 +112,19 @@ export default function EngineManager() {
       )}
 
       <div className="flex gap-2">
-        <TabButton id="cli" icon={<Terminal size={16} />} label="CLI Agents" />
-        <TabButton id="api" icon={<Cloud size={16} />} label="API Provider" />
-        <TabButton id="ollama" icon={<Cpu size={16} />} label="Ollama" />
+        <TabButton id="cli" icon={<Terminal size={16} />} label={t("em.tab.cli")} />
+        <TabButton id="api" icon={<Cloud size={16} />} label={t("em.tab.api")} />
+        <TabButton id="ollama" icon={<Cpu size={16} />} label={t("em.tab.ollama")} />
       </div>
 
       {/* --- CLI tab --- */}
       {tab === "cli" && (
         <div className="space-y-3">
           <p className="text-sm text-forge-steel">
-            Usa los agentes de coding que ya tienes instalados (solo en modo nativo).
+            {t("em.cliNote1")}
             <br />
             <span className="text-forge-steel/70">
-              <strong>Detectado en tu PATH ≠ autenticado.</strong> Pulsa <em>Test</em> para
-              confirmar que el agente responde antes de usarlo.
+              <strong>{t("em.cliNoteWarnBold")}</strong> {t("em.cliNoteWarnRest")}
             </span>
           </p>
           {Object.entries(CLI_META).map(([id, label]) => {
@@ -133,13 +134,13 @@ export default function EngineManager() {
             let icon, status;
             if (!available) {
               icon = <XCircle className="text-stone-600" size={18} />;
-              status = "no encontrado en el PATH";
+              status = t("em.status.notFound");
             } else if (isVerified) {
               icon = <CheckCircle2 className="text-emerald-500" size={18} />;
-              status = "verificado ✓";
+              status = t("em.status.verified");
             } else {
               icon = <CircleDashed className="text-amber-500" size={18} />;
-              status = "detectado — sin verificar";
+              status = t("em.status.unverified");
             }
             return (
               <div
@@ -158,15 +159,15 @@ export default function EngineManager() {
                     onClick={() => handleTest(cfg)}
                     className="rounded-md border border-forge-border px-3 py-1 text-xs hover:border-forge-ember disabled:opacity-40"
                   >
-                    Test
+                    {t("em.test")}
                   </button>
                   <button
                     disabled={!available}
-                    title={!isVerified ? "Recomendado: pulsa Test antes de usar" : undefined}
+                    title={!isVerified ? t("em.useHint") : undefined}
                     onClick={() => handleActivate(cfg)}
                     className="rounded-md bg-forge-ember px-3 py-1 text-xs font-medium text-stone-950 disabled:opacity-40"
                   >
-                    Usar
+                    {t("em.use")}
                   </button>
                 </div>
               </div>
@@ -198,14 +199,16 @@ export default function EngineManager() {
           <input
             value={apiModel}
             onChange={(e) => setApiModel(e.target.value)}
-            placeholder={`Modelo (${API_PROVIDERS.find((p) => p.id === apiProvider)?.placeholder})`}
+            placeholder={t("em.modelPlaceholder", {
+              ph: API_PROVIDERS.find((p) => p.id === apiProvider)?.placeholder ?? "",
+            })}
             className="w-full rounded-lg border border-forge-border bg-forge-panel px-3 py-2 text-sm"
           />
           <input
             type="password"
             value={apiKey}
             onChange={(e) => setApiKey(e.target.value)}
-            placeholder="API key (se guarda solo en tu SQLite local)"
+            placeholder={t("em.keyPlaceholder")}
             className="w-full rounded-lg border border-forge-border bg-forge-panel px-3 py-2 text-sm"
           />
           <EngineActions
@@ -222,13 +225,13 @@ export default function EngineManager() {
           <input
             value={ollamaUrl}
             onChange={(e) => setOllamaUrl(e.target.value)}
-            placeholder="Ollama URL"
+            placeholder={t("em.ollamaUrl")}
             className="w-full rounded-lg border border-forge-border bg-forge-panel px-3 py-2 text-sm"
           />
           <input
             value={ollamaModel}
             onChange={(e) => setOllamaModel(e.target.value)}
-            placeholder="Modelo (llama3, mistral, qwen2.5...)"
+            placeholder={t("em.ollamaModel")}
             className="w-full rounded-lg border border-forge-border bg-forge-panel px-3 py-2 text-sm"
           />
           <EngineActions
@@ -264,6 +267,7 @@ function EngineActions({
   onTest: () => void;
   onActivate: () => void;
 }) {
+  const { t } = useT();
   return (
     <div className="flex gap-2">
       <button
@@ -272,13 +276,13 @@ function EngineActions({
         className="flex items-center gap-2 rounded-lg border border-forge-border px-4 py-2 text-sm hover:border-forge-ember disabled:opacity-50"
       >
         {testing && <Loader2 size={14} className="animate-spin" />}
-        Test connection
+        {t("em.testConnection")}
       </button>
       <button
         onClick={onActivate}
         className="rounded-lg bg-forge-ember px-4 py-2 text-sm font-medium text-stone-950"
       >
-        Activar engine
+        {t("em.activate")}
       </button>
     </div>
   );

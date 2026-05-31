@@ -2,14 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Send, Sparkles, Loader2 } from "lucide-react";
 import { api, streamSSE, WizardSession } from "../lib/api";
+import { useT } from "../i18n/useT";
 
-const PHASE_LABELS: Record<string, string> = {
-  discovery: "Discovery",
-  scope: "Scope",
-  technical: "Technical",
-  goals: "Goals",
-};
-const PHASES = ["discovery", "scope", "technical", "goals"];
+const PHASES = ["discovery", "audience", "solution_fit", "scope", "constraints"];
 
 interface Msg {
   role: "assistant" | "user";
@@ -17,6 +12,7 @@ interface Msg {
 }
 
 export default function Wizard() {
+  const { t, languageName } = useT();
   const { id } = useParams<{ id: string }>();
   const nav = useNavigate();
   const [session, setSession] = useState<WizardSession | null>(null);
@@ -61,7 +57,9 @@ export default function Wizard() {
           setStreaming("");
           setBusy(false);
         }
-      }
+      },
+      undefined,
+      { lang: languageName }
     );
   }
 
@@ -81,7 +79,10 @@ export default function Wizard() {
       generate();
     } else {
       setSession(res);
-      setMessages((m) => [...m, { role: "assistant", content: `— Fase ${PHASE_LABELS[res.phase]} —` }]);
+      setMessages((m) => [
+        ...m,
+        { role: "assistant", content: t("wizard.phaseDivider", { phase: t(`wizard.phase.${res.phase}`) }) },
+      ]);
       askNext(res.id);
     }
   }
@@ -102,7 +103,7 @@ export default function Wizard() {
               className={`h-1.5 rounded-full ${i <= phaseIdx ? "bg-forge-ember" : "bg-forge-border"}`}
             />
             <span className={`mt-1 block text-xs ${i === phaseIdx ? "text-forge-ember-soft" : "text-forge-steel"}`}>
-              {PHASE_LABELS[p]}
+              {t(`wizard.phase.${p}`)}
             </span>
           </div>
         ))}
@@ -116,7 +117,7 @@ export default function Wizard() {
         {streaming && <Bubble role="assistant">{streaming}<Caret /></Bubble>}
         {busy && !streaming && (
           <div className="flex items-center gap-2 text-sm text-forge-steel">
-            <Loader2 size={14} className="animate-spin" /> Hephaestus está pensando…
+            <Loader2 size={14} className="animate-spin" /> {t("wizard.thinking")}
           </div>
         )}
       </div>
@@ -128,7 +129,7 @@ export default function Wizard() {
           className="ember-glow my-3 flex items-center justify-center gap-2 rounded-lg bg-forge-ember py-2.5 font-medium text-stone-950"
         >
           <Sparkles size={16} />
-          {phaseIdx >= PHASES.length - 1 ? "Generar documentos" : "Siguiente fase →"}
+          {phaseIdx >= PHASES.length - 1 ? t("wizard.generateDocs") : t("wizard.nextPhase")}
         </button>
       )}
 
@@ -139,7 +140,7 @@ export default function Wizard() {
           onChange={(e) => setAnswer(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && send()}
           disabled={busy}
-          placeholder="Tu respuesta…"
+          placeholder={t("wizard.answerPlaceholder")}
           className="flex-1 rounded-lg border border-forge-border bg-forge-panel px-4 py-3 text-sm disabled:opacity-50"
         />
         <button
@@ -152,7 +153,7 @@ export default function Wizard() {
       </div>
       {phaseIdx >= 1 && (
         <button onClick={generate} className="mt-2 text-xs text-forge-steel hover:text-forge-ember-soft">
-          Tengo suficiente — generar documentos ahora →
+          {t("wizard.enough")}
         </button>
       )}
     </div>

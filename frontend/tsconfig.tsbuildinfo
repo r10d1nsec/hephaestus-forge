@@ -1,1 +1,0 @@
-{"root":["./src/App.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/components/engines/EngineManager.tsx","./src/lib/api.ts","./src/pages/Dashboard.tsx","./src/pages/Documents.tsx","./src/pages/NewIdea.tsx","./src/pages/Settings.tsx","./src/pages/Wizard.tsx"],"version":"5.9.3"}
