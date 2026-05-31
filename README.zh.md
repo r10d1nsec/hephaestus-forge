@@ -18,6 +18,12 @@
 
 🌐 **[网站与演示](https://r10d1nsec.github.io/hephaestus-forge/)** · 📂 **[示例](examples/README.zh.md)** · 🚀 **[快速开始](#-快速开始)** · 🤝 **[参与贡献](#-参与贡献)**
 
+<br/>
+
+[![Hephaestus' Forge 演示](docs/screenshots/demo.gif)](https://r10d1nsec.github.io/hephaestus-forge/)
+
+<sub>从一句话想法 → 五阶段访谈 → 可直接开发的**项目蓝图**。100% 本地，运行在你已有的 AI 引擎上。</sub>
+
 </div>
 
 ---

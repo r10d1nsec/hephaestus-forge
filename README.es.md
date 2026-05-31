@@ -18,6 +18,12 @@
 
 🌐 **[Web y demo](https://r10d1nsec.github.io/hephaestus-forge/)** · 📂 **[Ejemplos](examples/README.md)** · 🚀 **[Inicio rápido](#-inicio-rápido)** · 🤝 **[Contribuir](#-contribuir)**
 
+<br/>
+
+[![Demo de Hephaestus' Forge](docs/screenshots/demo.gif)](https://r10d1nsec.github.io/hephaestus-forge/)
+
+<sub>De una idea en una frase → una entrevista de 5 fases → un **Project Blueprint** listo para construir. 100% local, con el motor de IA que ya tienes.</sub>
+
 </div>
 
 ---
