@@ -23,7 +23,7 @@ private information without permission.
 ## Enforcement
 
 Instances of abusive or otherwise unacceptable behavior may be reported to the maintainers at
-**angelroldanruiz@gmail.com**. All complaints will be reviewed and investigated promptly and fairly.
+**r10d1n.sec@gmail.com**. All complaints will be reviewed and investigated promptly and fairly.
 
 This Code of Conduct is adapted from the [Contributor Covenant](https://www.contributor-covenant.org),
 version 2.1.

@@ -1,5 +1,13 @@
 import { useEffect, useState } from "react";
-import { CheckCircle2, Loader2, Terminal, XCircle, Cpu, Cloud } from "lucide-react";
+import {
+  CheckCircle2,
+  Loader2,
+  Terminal,
+  XCircle,
+  Cpu,
+  Cloud,
+  CircleDashed,
+} from "lucide-react";
 import { api, EngineConfig } from "../../lib/api";
 
 type Tab = "cli" | "api" | "ollama";
@@ -23,6 +31,8 @@ export default function EngineManager() {
   const [active, setActive] = useState<any>(null);
   const [testing, setTesting] = useState(false);
   const [result, setResult] = useState<{ ok: boolean; message: string } | null>(null);
+  // CLIs that passed a real "Test" (binary present in PATH != authenticated).
+  const [verified, setVerified] = useState<Record<string, boolean>>({});
 
   // form state
   const [apiProvider, setApiProvider] = useState("anthropic");
@@ -56,7 +66,11 @@ export default function EngineManager() {
     setTesting(true);
     setResult(null);
     try {
-      setResult(await api.testEngine(cfg));
+      const res = await api.testEngine(cfg);
+      setResult(res);
+      if (cfg.kind === "cli") {
+        setVerified((v) => ({ ...v, [cfg.provider]: res.ok }));
+      }
     } catch (e: any) {
       setResult({ ok: false, message: String(e) });
     } finally {
@@ -105,25 +119,38 @@ export default function EngineManager() {
       {tab === "cli" && (
         <div className="space-y-3">
           <p className="text-sm text-forge-steel">
-            Usa los agentes de coding que ya tienes instalados. Detectados en tu PATH
-            (solo en modo nativo):
+            Usa los agentes de coding que ya tienes instalados (solo en modo nativo).
+            <br />
+            <span className="text-forge-steel/70">
+              <strong>Detectado en tu PATH ≠ autenticado.</strong> Pulsa <em>Test</em> para
+              confirmar que el agente responde antes de usarlo.
+            </span>
           </p>
           {Object.entries(CLI_META).map(([id, label]) => {
             const available = clis[id];
+            const isVerified = verified[id];
             const cfg: EngineConfig = { kind: "cli", provider: id, model: null };
+            let icon, status;
+            if (!available) {
+              icon = <XCircle className="text-stone-600" size={18} />;
+              status = "no encontrado en el PATH";
+            } else if (isVerified) {
+              icon = <CheckCircle2 className="text-emerald-500" size={18} />;
+              status = "verificado ✓";
+            } else {
+              icon = <CircleDashed className="text-amber-500" size={18} />;
+              status = "detectado — sin verificar";
+            }
             return (
               <div
                 key={id}
                 className="flex items-center justify-between rounded-lg border border-forge-border bg-forge-panel px-4 py-3"
               >
                 <div className="flex items-center gap-3">
-                  {available ? (
-                    <CheckCircle2 className="text-emerald-500" size={18} />
-                  ) : (
-                    <XCircle className="text-stone-600" size={18} />
-                  )}
+                  {icon}
                   <span className="font-medium">{label}</span>
                   <code className="text-xs text-forge-steel">{id}</code>
+                  <span className="text-xs text-forge-steel/70">· {status}</span>
                 </div>
                 <div className="flex gap-2">
                   <button
@@ -135,6 +162,7 @@ export default function EngineManager() {
                   </button>
                   <button
                     disabled={!available}
+                    title={!isVerified ? "Recomendado: pulsa Test antes de usar" : undefined}
                     onClick={() => handleActivate(cfg)}
                     className="rounded-md bg-forge-ember px-3 py-1 text-xs font-medium text-stone-950 disabled:opacity-40"
                   >

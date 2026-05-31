@@ -43,7 +43,7 @@ guardan solo en un SQLite local y **nunca salen del contenedor.**
 ### Opción A — Docker (motores API + Ollama)
 
 ```bash
-git clone https://github.com/angelroldanruiz/hephaestus-forge
+git clone https://github.com/r10d1nsec/hephaestus-forge
 cd hephaestus-forge
 cp .env.example .env        # opcional — también puedes configurar motores en la UI
 docker compose up -d
@@ -53,7 +53,7 @@ docker compose up -d
 ### Opción B — Modo nativo (desbloquea los agentes CLI 🔓)
 
 ```bash
-git clone https://github.com/angelroldanruiz/hephaestus-forge
+git clone https://github.com/r10d1nsec/hephaestus-forge
 cd hephaestus-forge
 ./run.sh
 # abre http://localhost:3000

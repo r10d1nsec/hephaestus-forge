@@ -6,7 +6,7 @@ import Base from "../layouts/Base.astro";
 interface Props { t: Dict }
 const { t } = Astro.props;
 
-const REPO = "https://github.com/angelroldanruiz/hephaestus-forge";
+const REPO = "https://github.com/r10d1nsec/hephaestus-forge";
 const base = import.meta.env.BASE_URL.replace(/\/$/, "");
 const langHref = (l: Lang) => (l === "en" ? `${base}/` : `${base}/${l}/`);
 ---
@@ -51,6 +51,52 @@ const langHref = (l: Lang) => (l === "en" ? `${base}/` : `${base}/${l}/`);
       {t.steps.map((s) => <li>{s}</li>)}
     </ol>
     <p class="privacy">🔒 {t.privacy}</p>
+  </section>
+
+  <section class="wrap shots">
+    <div class="shotgrid">
+      <figure><img src={`${base}/shots/engines.png`} alt="Engines panel" loading="lazy" /></figure>
+      <figure><img src={`${base}/shots/docs-en.png`} alt="Generated PRD" loading="lazy" /></figure>
+    </div>
+  </section>
+
+  <section class="wrap examples">
+    <h2>{t.examplesTitle}</h2>
+    <p class="byo-sub">{t.examplesSub}</p>
+    <div class="cards">
+      <a class="card ex" href={`${REPO}/tree/main/examples/streakly`}>
+        <h3>🇬🇧 Streakly</h3>
+        <p>{t.ex1Desc}</p>
+        <span class="exlink">{t.viewExample}</span>
+      </a>
+      <a class="card ex" href={`${REPO}/tree/main/examples/dianxiaoer`}>
+        <h3>🇨🇳 聚单宝</h3>
+        <p>{t.ex2Desc}</p>
+        <span class="exlink">{t.viewExample}</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap docs">
+    <h2>{t.docsTitle}</h2>
+    <p class="byo-sub">{t.docsSub}</p>
+    <div class="doclinks">
+      <a href={`${REPO}#-quickstart`}>🚀 Quickstart</a>
+      <a href={`${REPO}/blob/main/docs/ARCHITECTURE.md`}>📐 Architecture</a>
+      <a href={`${REPO}/blob/main/docs/ENGINES.md`}>⚡ Engines guide</a>
+      <a href={`${REPO}/blob/main/examples/README.md`}>📂 Examples</a>
+      <a href={`${REPO}/blob/main/docs/AUDIT.md`}>🔍 Audit</a>
+      <a href={`${REPO}/blob/main/CONTRIBUTING.md`}>🤝 Contributing</a>
+    </div>
+  </section>
+
+  <section class="wrap contrib">
+    <h2>{t.contribTitle}</h2>
+    <p class="byo-sub">{t.contribSub}</p>
+    <div class="cta">
+      <a class="btn primary" href={`${REPO}/blob/main/CONTRIBUTING.md`}>{t.contribCta}</a>
+      <a class="btn ghost" href={`${REPO}/labels/good%20first%20issue`}>Good first issues</a>
+    </div>
   </section>
 
   <footer class="wrap foot">
@@ -100,4 +146,27 @@ const langHref = (l: Lang) => (l === "en" ? `${base}/` : `${base}/${l}/`);
 
   .foot { text-align: center; padding: 70px 24px 60px; }
   .foot p { color: var(--steel); font-size: 0.85rem; margin-top: 18px; }
+
+  .shots { margin-top: 56px; }
+  .shotgrid { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .shotgrid figure { margin: 0; }
+  .shotgrid img {
+    width: 100%; border-radius: 12px; border: 1px solid var(--border);
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.8);
+  }
+
+  .card.ex { display: block; text-decoration: none; transition: border-color 0.2s; }
+  .card.ex:hover { border-color: rgba(249,115,22,0.5); }
+  .exlink { color: var(--ember-soft); font-size: 0.9rem; font-weight: 600; display: inline-block; margin-top: 12px; }
+
+  .doclinks { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 28px; }
+  .doclinks a {
+    text-decoration: none; color: #e7e5e4; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; font-size: 0.95rem;
+    transition: border-color 0.2s;
+  }
+  .doclinks a:hover { border-color: rgba(249,115,22,0.5); }
+
+  .contrib { text-align: center; margin-top: 60px; }
+  .contrib .cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
 </style>

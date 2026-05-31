@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please **do not** open a public issue for security vulnerabilities. Instead, email
-**angelroldanruiz@gmail.com** with details and steps to reproduce. We aim to respond within 72 hours.
+**r10d1n.sec@gmail.com** with details and steps to reproduce. We aim to respond within 72 hours.
 
 ## Scope & design notes
 

@@ -41,7 +41,7 @@
 ### 方式 A — Docker（API + Ollama 引擎）
 
 ```bash
-git clone https://github.com/angelroldanruiz/hephaestus-forge
+git clone https://github.com/r10d1nsec/hephaestus-forge
 cd hephaestus-forge
 cp .env.example .env        # 可选，也可在 UI 中配置引擎
 docker compose up -d
@@ -53,7 +53,7 @@ docker compose up -d
 在宿主机运行，从而能调用 `PATH` 中的 `claude` / `codex` / `gemini`：
 
 ```bash
-git clone https://github.com/angelroldanruiz/hephaestus-forge
+git clone https://github.com/r10d1nsec/hephaestus-forge
 cd hephaestus-forge
 ./run.sh
 # 打开 http://localhost:3000
