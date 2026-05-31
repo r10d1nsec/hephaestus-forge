@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hephaestus' Forge — forge a vague idea into a build-ready spec</title>
+<meta name="description" content="Hephaestus interviews you about your idea and forges a PRD, technical spec and honest estimation — running on the AI engine you already have. Self-hosted, 100% local, Bring Your Own Engine." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+<script>document.documentElement.className += " js";</script>
+</head>
+<body>
+
+<!-- ===== lucide icon sprite ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="i-flame" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></g>
+    <g id="i-terminal" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 11 2-2-2-2"/><path d="M11 13h4"/><rect width="18" height="18" x="3" y="3" rx="2"/></g>
+    <g id="i-cloud" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></g>
+    <g id="i-cpu" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></g>
+    <g id="i-chevron" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></g>
+    <g id="i-check" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></g>
+    <g id="i-copy" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></g>
+    <g id="i-arrow-ur" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></g>
+    <g id="i-star" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></g>
+    <g id="i-shield" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></g>
+    <g id="i-badge" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/></g>
+    <g id="i-message" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></g>
+    <g id="i-compass" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></g>
+    <g id="i-sparkles" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></g>
+    <g id="i-package" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></g>
+    <g id="i-pen" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/></g>
+    <g id="i-book" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></g>
+    <g id="i-file" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></g>
+    <g id="i-layers" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></g>
+    <g id="i-server" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="8" x="2" y="2" rx="2"/><rect width="20" height="8" x="2" y="14" rx="2"/><path d="M6 6h.01"/><path d="M6 18h.01"/></g>
+    <g id="i-globe" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></g>
+    <g id="i-languages" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></g>
+    <g id="i-git" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" x2="6" y1="3" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></g>
+    <g id="i-route" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></g>
+    <g id="i-download" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></g>
+  </defs>
+</svg>
+
+<div class="bg-field"></div>
+<div class="grain"></div>
+
+<!-- ===== NAV ===== -->
+<header class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Hephaestus' Forge — home">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-flame"/></svg></span>
+      <span class="name"><b>Hephaestus<span class="apos">'</span> Forge</b></span>
+    </a>
+    <div class="nav-spacer"></div>
+    <nav class="nav-desktop nav-actions" aria-label="Primary">
+      <div class="lang" id="lang">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Change language">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:16px;height:16px"><use href="#i-languages"/></svg>
+          <span id="langCurrent">EN</span>
+          <svg class="ico chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:14px;height:14px"><use href="#i-chevron"/></svg>
+        </button>
+        <div class="lang-menu" id="langMenu" role="menu"></div>
+      </div>
+      <a class="lang-btn" href="#docs"><span data-i18n="nav_docs">Docs</span></a>
+      <span class="nav-divider"></span>
+      <a class="btn btn-ghost btn-sm" href="https://github.com/r10d1nsec/hephaestus-forge" target="_blank" rel="noopener">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:16px;height:16px"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.88-.01-1.73-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.27 2.75 1.05a9.4 9.4 0 0 1 5 0c1.91-1.32 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.94-2.34 4.81-4.57 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.02 10.02 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
+        <span data-i18n="nav_github">GitHub</span>
+      </a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Open language menu">
+      <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-languages"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero wrap" id="hero">
+    <span class="hero-pill reveal"><span class="spark"></span><span data-i18n="hero_pill">Self-hosted · 100% local · <b>Bring Your Own Engine</b></span></span>
+    <h1 class="reveal" data-i18n="hero_title">Forge a vague idea into a <span class="molten">build-ready spec</span>.</h1>
+    <p class="sub reveal" data-i18n="hero_sub">Hephaestus interviews you about your idea and forges a PRD, technical spec and honest estimation — <b>with the AI engine you already have</b>.</p>
+    <div class="hero-cta reveal">
+      <a class="btn btn-primary" href="https://github.com/r10d1nsec/hephaestus-forge" target="_blank" rel="noopener">
+        <svg class="ico star" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:16px;height:16px"><use href="#i-star"/></svg>
+        <span data-i18n="hero_cta_primary">Star on GitHub</span>
+      </a>
+      <a class="btn btn-ghost" href="#quickstart">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-terminal"/></svg>
+        <span data-i18n="hero_cta_secondary">Quickstart</span>
+      </a>
+    </div>
+    <div class="hero-trust reveal">
+      <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-shield"/></svg><span data-i18n="trust_1">No data leaves your machine</span></span>
+      <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-terminal"/></svg><span data-i18n="trust_2">Engines detected from your PATH</span></span>
+      <span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-badge"/></svg><span data-i18n="trust_3">MIT licensed</span></span>
+    </div>
+
+    <!-- terminal -->
+    <div class="terminal reveal" id="quickstart">
+      <div class="term-bar">
+        <span class="term-dots"><i></i><i></i><i></i></span>
+        <span class="term-title">bash — hephaestus-forge</span>
+        <button class="term-copy" id="termCopy" aria-label="Copy commands">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-copy"/></svg>
+          <span data-i18n="term_copy">Copy</span>
+        </button>
+      </div>
+      <div class="term-body" id="termBody">
+        <div class="term-line"><span class="pr">$</span><span class="cmd">git clone https://github.com/r10d1nsec/hephaestus-forge</span></div>
+        <div class="term-line"><span class="pr">$</span><span class="cmd">cd hephaestus-forge &amp;&amp; ./run.sh</span></div>
+        <div class="term-line is-out"><span class="ok">✓</span><span class="cmd">http://localhost:3000</span> <span class="dim">— engines detected from your PATH</span><span class="term-cursor" aria-hidden="true"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BRING YOUR OWN ENGINE ===== -->
+  <section class="section wrap" id="engines">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="spark"></span><span data-i18n="byoe_eyebrow">Bring Your Own Engine</span></span>
+      <h2 class="title" data-i18n="byoe_title">Run it on the AI you already pay for.</h2>
+      <p class="lede" data-i18n="byoe_lede">No vendor lock-in, no new subscription. Hephaestus plugs into the engine sitting on your machine or in your existing account.</p>
+    </div>
+    <div class="cards-3">
+      <article class="card reveal">
+        <span class="c-ico"><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-terminal"/></svg></span>
+        <h3 data-i18n="c1_title">CLI agents</h3>
+        <p data-i18n="c1_desc">Point it at the coding agents already installed in your PATH. Detected automatically — just press Use.</p>
+        <div class="chips"><span class="chip">claude</span><span class="chip">codex</span><span class="chip">gemini</span></div>
+      </article>
+      <article class="card reveal">
+        <span class="c-ico"><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-cloud"/></svg></span>
+        <h3 data-i18n="c2_title">API providers</h3>
+        <p data-i18n="c2_desc">Bring a key from any OpenAI-compatible provider. Your credentials stay in your local config.</p>
+        <div class="chips"><span class="chip">OpenAI</span><span class="chip">Anthropic</span><span class="chip">OpenRouter</span></div>
+      </article>
+      <article class="card reveal">
+        <span class="c-ico"><svg class="ico-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-cpu"/></svg></span>
+        <h3 data-i18n="c3_title">Local models</h3>
+        <p data-i18n="c3_desc">Run fully offline with Ollama or any local server. Nothing ever leaves the machine.</p>
+        <div class="chips"><span class="chip">Ollama</span><span class="chip">LM Studio</span><span class="chip">llama.cpp</span></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="section wrap" id="how">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="spark"></span><span data-i18n="how_eyebrow">How it works</span></span>
+      <h2 class="title" data-i18n="how_title">Five phases from sentence to spec.</h2>
+      <p class="lede" data-i18n="how_lede">A guided wizard turns one line of intent into documents a build agent can act on.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <span class="step-num">01</span>
+        <div class="step-body">
+          <h3><span data-i18n="s1_t">Describe</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-pen"/></svg></h3>
+          <p data-i18n="s1_d">Start with a sentence or a short paragraph. That's all Hephaestus needs to begin.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">02</span>
+        <div class="step-body">
+          <h3><span data-i18n="s2_t">Interview</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-message"/></svg></h3>
+          <p data-i18n="s2_d">It asks the sharp questions — scope, users, constraints — and fills the gaps you'd have missed.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">03</span>
+        <div class="step-body">
+          <h3><span data-i18n="s3_t">Blueprint</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-compass"/></svg></h3>
+          <p data-i18n="s3_d">Get a recommended solution type, realistic scale, and an honest time estimate before you commit.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">04</span>
+        <div class="step-body">
+          <h3><span data-i18n="s4_t">Specify</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-sparkles"/></svg></h3>
+          <p data-i18n="s4_d">A full PRD and technical spec are forged — structured, opinionated, and build-ready.</p>
+        </div>
+      </div>
+      <div class="step reveal">
+        <span class="step-num">05</span>
+        <div class="step-body">
+          <h3><span data-i18n="s5_t">Ship</span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-package"/></svg></h3>
+          <p data-i18n="s5_d">Export a ZIP and hand it straight to your build agent, or keep iterating with Regenerate.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SHOWCASE ===== -->
+  <section class="section wrap" id="showcase">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="spark"></span><span data-i18n="show_eyebrow">See it work</span></span>
+      <h2 class="title" data-i18n="show_title">Documents, not chat transcripts.</h2>
+      <p class="lede" data-i18n="show_lede">Every project produces a tidy, navigable workspace — Blueprint, PRD, Technical Spec and Estimation, ready to export.</p>
+    </div>
+    <figure class="showcase-frame reveal">
+      <div class="sc-bar">
+        <span class="term-dots"><i></i><i></i><i></i></span>
+        <span class="sc-url"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-globe"/></svg>localhost:3000</span>
+        <span style="width:52px"></span>
+      </div>
+      <img class="sc-img" src="assets/showcase-docs.png" alt="Hephaestus' Forge workspace showing a generated PRD for the Streakly example project, with a document sidebar listing PRD, Technical Spec and Estimation." width="1280" height="900" loading="lazy" />
+      <span class="sc-glow"></span>
+    </figure>
+  </section>
+
+  <!-- ===== EXAMPLES ===== -->
+  <section class="section wrap" id="examples">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="spark"></span><span data-i18n="ex_eyebrow">Examples</span></span>
+      <h2 class="title" data-i18n="ex_title">Real specs, forged end to end.</h2>
+      <p class="lede" data-i18n="ex_lede">Two sample projects ship with the repo so you can see the output before running your own.</p>
+    </div>
+    <div class="examples-grid">
+      <article class="ex-card reveal">
+        <div class="ex-top">
+          <span class="ex-flag">🇬🇧</span>
+          <div><h3>Streakly</h3><div class="ex-sub">AI habit tracker</div></div>
+        </div>
+        <p data-i18n="ex1_desc">An AI habit tracker that turns any big goal into adaptive daily micro-tasks.</p>
+        <div class="ex-foot">
+          <span class="badge"><span class="dot"></span><span data-i18n="ex_status">complete</span></span>
+          <span class="ex-links">
+            <a href="#"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-route"/></svg><span data-i18n="ex_wizard">Wizard</span></a>
+            <a href="#"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-file"/></svg><span data-i18n="ex_docs">Docs</span></a>
+          </span>
+        </div>
+      </article>
+      <article class="ex-card reveal">
+        <div class="ex-top">
+          <span class="ex-flag">🇨🇳</span>
+          <div><h3>聚单宝</h3><div class="ex-sub">餐馆订单库存小程序</div></div>
+        </div>
+        <p data-i18n="ex2_desc">A WeChat mini-program that aggregates multi-platform delivery orders and forecasts daily stock with AI.</p>
+        <div class="ex-foot">
+          <span class="badge"><span class="dot"></span><span data-i18n="ex_status">complete</span></span>
+          <span class="ex-links">
+            <a href="#"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-route"/></svg><span data-i18n="ex_wizard">Wizard</span></a>
+            <a href="#"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-file"/></svg><span data-i18n="ex_docs">Docs</span></a>
+          </span>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ===== DOCUMENTATION ===== -->
+  <section class="section wrap" id="docs">
+    <div class="section-head reveal">
+      <span class="eyebrow"><span class="spark"></span><span data-i18n="docs_eyebrow">Documentation</span></span>
+      <h2 class="title" data-i18n="docs_title">Everything you need to self-host.</h2>
+      <p class="lede" data-i18n="docs_lede">Clear, practical guides — from first clone to plugging in your own engine.</p>
+    </div>
+    <div class="docs-grid">
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-terminal"/></svg></span>
+        <div><h3><span data-i18n="d1_t">Quickstart</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d1_d">Clone, run, forge your first spec in minutes.</p></div>
+      </a>
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-cpu"/></svg></span>
+        <div><h3><span data-i18n="d2_t">Bring Your Own Engine</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d2_d">Wire up CLI agents, API keys or local models.</p></div>
+      </a>
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-route"/></svg></span>
+        <div><h3><span data-i18n="d3_t">The 5-phase wizard</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d3_d">How an idea becomes a build-ready spec.</p></div>
+      </a>
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-server"/></svg></span>
+        <div><h3><span data-i18n="d4_t">Self-hosting</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d4_d">Run it on your machine, fully offline.</p></div>
+      </a>
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-layers"/></svg></span>
+        <div><h3><span data-i18n="d5_t">Document types</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d5_d">Blueprint, PRD, Technical Spec, Estimation.</p></div>
+      </a>
+      <a class="doc reveal" href="#">
+        <span class="d-ico"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-git"/></svg></span>
+        <div><h3><span data-i18n="d6_t">Contributing</span><svg class="ico arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" style="width:13px;height:13px"><use href="#i-arrow-ur"/></svg></h3><p data-i18n="d6_d">Add engines, translations and templates.</p></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== CONTRIBUTOR CTA ===== -->
+  <section class="section wrap" id="contribute" style="padding-top:0">
+    <div class="cta-panel reveal">
+      <span class="mark-lg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-flame"/></svg></span>
+      <h2 data-i18n="cta_title">Forge with us.</h2>
+      <p data-i18n="cta_sub">Hephaestus is open source and 100% local. Bring your own engine, bring your own ideas — and help shape the anvil.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://github.com/r10d1nsec/hephaestus-forge" target="_blank" rel="noopener">
+          <svg class="ico star" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:16px;height:16px"><use href="#i-star"/></svg>
+          <span data-i18n="cta_primary">Star on GitHub</span>
+        </a>
+        <a class="btn btn-ghost" href="#docs">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-book"/></svg>
+          <span data-i18n="cta_secondary">Read the docs</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-top">
+        <div class="fcol">
+          <a class="brand" href="#top">
+            <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><use href="#i-flame"/></svg></span>
+            <span class="name"><b>Hephaestus<span class="apos">'</span> Forge</b></span>
+          </a>
+          <p class="footer-blurb" data-i18n="foot_blurb">Forge a vague idea into a build-ready spec — with the AI engine you already have.</p>
+        </div>
+        <div class="fcol">
+          <h4 data-i18n="foot_h_product">Product</h4>
+          <a href="#engines" data-i18n="f_engines">Engines</a>
+          <a href="#quickstart" data-i18n="f_quickstart">Quickstart</a>
+          <a href="#how" data-i18n="f_how">How it works</a>
+          <a href="#examples" data-i18n="f_examples">Examples</a>
+        </div>
+        <div class="fcol">
+          <h4 data-i18n="foot_h_resources">Resources</h4>
+          <a href="#docs" data-i18n="f_docs">Documentation</a>
+          <a href="#engines" data-i18n="f_byoe">Bring Your Own Engine</a>
+          <a href="#how" data-i18n="f_wizard">The wizard</a>
+          <a href="#docs" data-i18n="f_selfhost">Self-hosting</a>
+        </div>
+        <div class="fcol">
+          <h4 data-i18n="foot_h_project">Project</h4>
+          <a href="https://github.com/r10d1nsec/hephaestus-forge" target="_blank" rel="noopener" data-i18n="f_github">GitHub</a>
+          <a href="#" data-i18n="f_releases">Releases</a>
+          <a href="#" data-i18n="f_license">License</a>
+          <a href="#" data-i18n="f_contributing">Contributing</a>
+        </div>
+      </div>
+      <div class="footer-bot">
+        <span class="local"><span class="spark"></span><span data-i18n="foot_local">v0.1.0 · 100% local</span></span>
+        <span data-i18n="foot_rights">Open source, MIT licensed.</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+<script src="i18n.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

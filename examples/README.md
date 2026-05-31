@@ -8,10 +8,17 @@ short interview, and produced a PRD, a Technical Spec, and an Estimation report 
 
 | Example | Idea (input) | Output |
 |---|---|---|
+| [`standup/`](standup/) | "A tool that turns my git commits and merged PRs into a daily standup summary posted to Slack each morning." | [**Blueprint**](standup/blueprint.md) · [PRD](standup/prd.md) · [Tech Spec](standup/tech_spec.md) · [Estimation](standup/estimation.md) |
 | [`streakly/`](streakly/) | "An AI habit tracker that turns any big goal into adaptive daily micro-tasks and reschedules when you miss a day." | [PRD](streakly/prd.md) · [Tech Spec](streakly/tech_spec.md) · [Estimation](streakly/estimation.md) |
 | [`dianxiaoer/`](dianxiaoer/) | "A WeChat mini-program that aggregates a small restaurant's orders across delivery platforms and predicts daily stock with AI." (Chinese) | [PRD](dianxiaoer/prd.md) · [Tech Spec](dianxiaoer/tech_spec.md) · [Estimation](dianxiaoer/estimation.md) |
 
 ## What stands out
+
+**0. It recommends the right *kind* of solution.** The `standup` example's
+[Blueprint](standup/blueprint.md) recommends a **scheduled Python script (automation)** — not a web
+app — because the user wanted something unattended, with no UI, on a weekend budget. It explicitly
+discards web/mobile app, workflow tools, and serverless with reasons. That's the 5-phase wizard
+(Discovery · Audience · Solution-Fit · Scope · Constraints) doing its job.
 
 **1. It interrogates, then specifies.** The wizard asked sharp questions (problem, user,
 differentiation, MVP scope, out-of-scope, platform) before writing a word of the spec — so the PRD

@@ -1,57 +1,165 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Hephaestus' Forge — design tokens (Tailwind v4 @theme)
+   Neutrals use Tailwind's built-in `stone` scale, which already
+   matches the forge steel palette (stone-950 #0c0a09 … stone-400
+   #a8a29e). We add the molten `ember` accent + fonts here.
+   ============================================================ */
 @theme {
-  --color-forge-bg: #0c0a09;
-  --color-forge-panel: #1c1917;
-  --color-forge-border: #292524;
-  --color-forge-ember: #f97316;
-  --color-forge-ember-soft: #fdba74;
-  --color-forge-steel: #a8a29e;
+  --color-bg: #0c0a09;
+  --color-panel: #1c1917;
+  --color-panel-2: #211e1b;
+  --color-edge: #292524;
+
+  --color-ember-300: #fdba74;
+  --color-ember-400: #fb923c;
+  --color-ember-500: #f97316;
+  --color-ember-600: #ea580c;
+  --color-ember-700: #c2410c;
+
+  /* low-key status hues — desaturated so ember stays the only loud accent */
+  --color-ok: #6fae5f;
+  --color-warn: #d8a24a;
+
+  --font-sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", "JetBrains Mono", monospace;
+
+  --radius-xl: 18px;
 }
 
-:root {
-  color-scheme: dark;
+@layer base {
+  :root { color-scheme: dark; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: theme(--color-stone-300);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv01", "ss03";
+  }
+  ::selection { background: rgba(249, 115, 22, 0.28); color: #fff; }
+  *:focus-visible {
+    outline: 2px solid var(--color-ember-400);
+    outline-offset: 2px;
+    border-radius: 5px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
 }
 
-body {
-  margin: 0;
-  background: var(--color-forge-bg);
-  color: #e7e5e4;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+/* ============================================================
+   Reusable component classes (the molten button heat glow and a
+   few effects are clearer as classes than long arbitrary values)
+   ============================================================ */
+@layer components {
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 7px;
+    font-weight: 540;
+    font-size: 13.5px;
+    letter-spacing: -0.004em;
+    white-space: nowrap;
+    transition: transform 0.15s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.2s,
+      background 0.16s, border-color 0.16s, color 0.16s;
+  }
+  .btn-base:active { transform: translateY(1px); }
+  .btn-base:disabled { opacity: 0.5; pointer-events: none; }
+
+  /* molten primary with subtle heat glow */
+  .btn-primary {
+    color: #1a0f06;
+    font-weight: 600;
+    background: linear-gradient(180deg, var(--color-ember-400), var(--color-ember-500) 60%, var(--color-ember-600));
+    border: 1px solid var(--color-ember-600);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      inset 0 -7px 16px -8px rgba(120, 40, 0, 0.5), 0 8px 20px -10px rgba(249, 115, 22, 0.45);
+  }
+  .btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5),
+      inset 0 -7px 16px -8px rgba(120, 40, 0, 0.45), 0 14px 30px -10px rgba(249, 115, 22, 0.5);
+  }
+
+  /* steel-outline secondary */
+  .btn-ghost {
+    color: theme(--color-stone-300);
+    background: rgba(255, 255, 255, 0.032);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+  .btn-ghost:hover {
+    color: theme(--color-stone-50);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .btn-quiet { color: theme(--color-stone-400); background: transparent; border: 1px solid transparent; }
+  .btn-quiet:hover { color: theme(--color-stone-50); background: rgba(255, 255, 255, 0.032); }
+
+  /* hairline helpers */
+  .edge { border: 1px solid rgba(255, 255, 255, 0.07); }
+  .edge-soft { border: 1px solid rgba(255, 255, 255, 0.045); }
+  .edge-ember { border: 1px solid rgba(249, 115, 22, 0.32); }
+
+  .ember-tile {
+    background: linear-gradient(180deg, rgba(249, 115, 22, 0.16), rgba(249, 115, 22, 0.05));
+    border: 1px solid rgba(249, 115, 22, 0.32);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 0 16px -6px rgba(249, 115, 22, 0.45);
+  }
+
+  .type-caret {
+    display: inline-block;
+    width: 7px;
+    height: 1.05em;
+    vertical-align: -2px;
+    margin-left: 2px;
+    background: var(--color-ember-500);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .screen-in { animation: screen-in 0.4s cubic-bezier(0.2, 0.7, 0.2, 1); }
+  @keyframes screen-in { from { transform: translateY(8px); } to { transform: none; } }
+
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 }
 
-/* Resplandor de brasa para acentos */
-.ember-glow {
-  box-shadow: 0 0 24px -4px rgba(249, 115, 22, 0.45);
+/* ============================================================
+   Premium reading view for generated Markdown documents
+   ============================================================ */
+@layer components {
+  .prose-forge { color: theme(--color-stone-300); }
+  .prose-forge h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.025em; color: theme(--color-stone-50); line-height: 1.15; margin: 0 0 6px; }
+  .prose-forge h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; color: theme(--color-stone-50); margin-top: 34px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.045); }
+  .prose-forge h3 { font-size: 15px; font-weight: 600; color: theme(--color-stone-50); margin-top: 24px; }
+  .prose-forge p { margin-top: 13px; font-size: 15px; line-height: 1.72; text-wrap: pretty; }
+  .prose-forge ul, .prose-forge ol { margin-top: 13px; padding-left: 4px; display: flex; flex-direction: column; gap: 9px; list-style: none; }
+  .prose-forge li { position: relative; padding-left: 22px; font-size: 15px; line-height: 1.65; }
+  .prose-forge ul li::before { content: ""; position: absolute; left: 4px; top: 10px; width: 5px; height: 5px; border-radius: 50%; background: var(--color-ember-500); }
+  .prose-forge ol { counter-reset: n; }
+  .prose-forge ol li { counter-increment: n; }
+  .prose-forge ol li::before { content: counter(n); position: absolute; left: 0; top: 1px; font-family: var(--font-mono); font-size: 11px; color: var(--color-ember-400); }
+  .prose-forge strong { color: theme(--color-stone-50); font-weight: 600; }
+  .prose-forge em { color: theme(--color-stone-400); }
+  .prose-forge code { font-family: var(--font-mono); font-size: 0.88em; color: var(--color-ember-300); background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.32); border-radius: 5px; padding: 1px 6px; }
+  .prose-forge .callout { margin-top: 18px; padding: 15px 17px; border-radius: 10px; background: rgba(255,255,255,0.018); border: 1px solid rgba(255,255,255,0.07); border-left: 2px solid var(--color-ember-500); }
+  .prose-forge .callout p { margin-top: 0; color: theme(--color-stone-400); font-size: 14px; }
+  .prose-forge table { margin-top: 16px; width: 100%; border-collapse: collapse; font-size: 14px; }
+  .prose-forge th, .prose-forge td { text-align: left; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.045); }
+  .prose-forge th { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: theme(--color-stone-500); font-family: var(--font-mono); font-weight: 500; }
+  .prose-forge td:first-child { color: theme(--color-stone-50); font-weight: 500; }
 }
-
-.prose-forge h1,
-.prose-forge h2,
-.prose-forge h3 {
-  color: #fafaf9;
-  font-weight: 700;
-  margin-top: 1.2em;
-  margin-bottom: 0.5em;
-}
-.prose-forge h1 { font-size: 1.6rem; }
-.prose-forge h2 { font-size: 1.3rem; }
-.prose-forge h3 { font-size: 1.1rem; }
-.prose-forge p { margin: 0.6em 0; line-height: 1.7; }
-.prose-forge ul { margin: 0.6em 0; padding-left: 1.4em; list-style: disc; }
-.prose-forge code {
-  background: #292524;
-  padding: 0.15em 0.4em;
-  border-radius: 4px;
-  font-size: 0.9em;
-}
-.prose-forge pre {
-  background: #18181b;
-  padding: 1em;
-  border-radius: 8px;
-  overflow-x: auto;
-  border: 1px solid var(--color-forge-border);
-}
-.prose-forge table { border-collapse: collapse; margin: 0.8em 0; width: 100%; }
-.prose-forge th,
-.prose-forge td { border: 1px solid var(--color-forge-border); padding: 0.4em 0.7em; }
-.prose-forge th { background: #292524; }

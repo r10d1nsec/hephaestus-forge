@@ -1,7 +1,7 @@
 /** Cliente de la API de Hephaestus' Forge (REST + SSE). */
 const BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-export interface Project {
+export interface ApiProject {
   id: string;
   title: string;
   raw_idea: string;
@@ -17,7 +17,7 @@ export interface WizardSession {
   messages: string;
 }
 
-export interface Document {
+export interface ApiDocument {
   id: string;
   project_id: string;
   doc_type: string;
@@ -43,7 +43,7 @@ async function jsonFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const api = {
-  // --- engines ---
+  // engines
   detectEngines: () =>
     jsonFetch<{ clis: Record<string, boolean>; active: any }>("/api/engines/detect"),
   getActiveEngine: () => jsonFetch<{ active: any }>("/api/engines"),
@@ -58,18 +58,18 @@ export const api = {
       body: JSON.stringify(cfg),
     }),
 
-  // --- projects ---
-  listProjects: () => jsonFetch<Project[]>("/api/projects"),
+  // projects
+  listProjects: () => jsonFetch<ApiProject[]>("/api/projects"),
   createProject: (title: string, raw_idea: string) =>
-    jsonFetch<Project>("/api/projects", {
+    jsonFetch<ApiProject>("/api/projects", {
       method: "POST",
       body: JSON.stringify({ title, raw_idea }),
     }),
-  getProject: (id: string) => jsonFetch<Project>(`/api/projects/${id}`),
+  getProject: (id: string) => jsonFetch<ApiProject>(`/api/projects/${id}`),
   deleteProject: (id: string) =>
     jsonFetch<{ deleted: string }>(`/api/projects/${id}`, { method: "DELETE" }),
 
-  // --- wizard ---
+  // wizard
   startSession: (projectId: string) =>
     jsonFetch<WizardSession>(`/api/projects/${projectId}/sessions`, { method: "POST" }),
   answer: (sessionId: string, content: string) =>
@@ -82,22 +82,18 @@ export const api = {
       method: "POST",
     }),
 
-  // --- documents ---
+  // documents
   listDocuments: (projectId: string) =>
-    jsonFetch<Document[]>(`/api/projects/${projectId}/documents`),
-
+    jsonFetch<ApiDocument[]>(`/api/projects/${projectId}/documents`),
   exportZipUrl: (projectId: string) => `${BASE}/api/projects/${projectId}/export/zip`,
 };
 
-/**
- * Consume un endpoint SSE y llama onEvent con cada objeto JSON recibido.
- * Devuelve un AbortController para poder cancelar la generación.
- */
+/** Consume un endpoint SSE; devuelve un AbortController para cancelar. */
 export function streamSSE(
   path: string,
   onEvent: (data: any) => void,
   onDone?: () => void,
-  body?: Record<string, unknown>
+  body?: Record<string, unknown>,
 ): AbortController {
   const controller = new AbortController();
   (async () => {

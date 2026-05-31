@@ -38,3 +38,6 @@ coverage/
 htmlcov/
 .coverage
 *.log
+
+# Claude Design deliverables (kept locally, not in repo)
+*.zip

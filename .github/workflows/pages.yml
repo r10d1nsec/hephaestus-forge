@@ -18,22 +18,12 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: landing
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "20"
-      - run: npm install
-      - run: npm run build
-        env:
-          LANDING_BASE: /hephaestus-forge
-          LANDING_SITE: https://r10d1nsec.github.io
+      # The landing is a self-contained static site (HTML/CSS/JS) — no build step.
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: landing/dist
+          path: landing
 
   deploy:
     needs: build

@@ -7,6 +7,7 @@
 
 | 示例 | 想法（输入） | 产出 |
 |---|---|---|
+| [`standup/`](standup/) | "把我的 git 提交和已合并 PR 整理成每日站会摘要，每天早上发到 Slack。"（英文） | [**蓝图**](standup/blueprint.md) · [PRD](standup/prd.md) · [技术规格](standup/tech_spec.md) · [估算](standup/estimation.md) |
 | [`streakly/`](streakly/) | "一个 AI 习惯追踪器，把任何大目标拆解为自适应的每日微任务，并在你漏打卡时自动重排。"（英文） | [PRD](streakly/prd.md) · [技术规格](streakly/tech_spec.md) · [估算](streakly/estimation.md) |
 | [`dianxiaoer/`](dianxiaoer/) | "一个微信小程序，聚合小餐馆在多个外卖平台的订单，并用 AI 预测每日备货量。" | [PRD](dianxiaoer/prd.md) · [技术规格](dianxiaoer/tech_spec.md) · [估算](dianxiaoer/estimation.md) |
 

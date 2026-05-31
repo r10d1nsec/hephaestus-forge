@@ -20,6 +20,42 @@ from services.engines.base import EngineConfig
 from services.generator_service import MVP_DOCUMENTS, generate_document
 
 EXAMPLES = {
+    "standup": {
+        "title": "Standup Forge — git activity → daily standup",
+        "raw_idea": "A tool that turns my git commits and merged PRs into a concise daily standup summary and posts it to my team's Slack each morning.",
+        "sessions": {
+            "discovery": [
+                ("assistant", "What concrete problem does this solve, and for whom?"),
+                ("user", "I forget what I did yesterday and writing standups by hand wastes 10 minutes every morning. It's for me and my 4-person dev team."),
+                ("assistant", "What's wrong with just reading the git log?"),
+                ("user", "Raw commits are noisy and not readable by non-engineers; I want a human-readable summary grouped by project, not a commit dump."),
+            ],
+            "audience": [
+                ("assistant", "Who reads the output and how technical are they?"),
+                ("user", "The dev team and our non-technical PM read it in Slack. The PM mainly wants 'what shipped' in plain English."),
+                ("assistant", "When and where is it used?"),
+                ("user", "Automatically every weekday at 9am, posted to a Slack channel. Nobody should have to open an app."),
+            ],
+            "solution_fit": [
+                ("assistant", "Should this run on its own, unattended, or do you interact with it?"),
+                ("user", "Fully unattended. It should just run on a schedule and post — no UI, no clicking. I only want to tweak config rarely."),
+                ("assistant", "Where would it run and what does it integrate with?"),
+                ("user", "On a small server or a scheduled job. It reads the GitHub API (commits/PRs) and posts via a Slack webhook, using an LLM to summarize."),
+            ],
+            "scope": [
+                ("assistant", "List the 3–5 MVP features."),
+                ("user", "1) Pull yesterday's commits+merged PRs from GitHub, 2) summarize per repo with an LLM, 3) post a formatted message to Slack, 4) a simple config file for repos/channel."),
+                ("assistant", "What's out of scope?"),
+                ("user", "No web dashboard, no per-user accounts, no Jira/Linear integration in the MVP, no historical analytics."),
+            ],
+            "constraints": [
+                ("assistant", "Budget, time, and your technical level?"),
+                ("user", "Basically no budget beyond a cheap VPS and LLM API costs. I'm a mid-level developer comfortable with Python. I can spend a weekend on it."),
+                ("assistant", "Solo or team, any deadline?"),
+                ("user", "Solo build, no hard deadline — I want something working this weekend that we can iterate on."),
+            ],
+        },
+    },
     "streakly": {
         "title": "Streakly — AI habit tracker",
         "raw_idea": "An AI habit tracker that turns any big goal into adaptive daily micro-tasks and reschedules automatically when you miss a day.",

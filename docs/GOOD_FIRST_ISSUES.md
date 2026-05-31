@@ -10,8 +10,8 @@ file these as issues and label them `good first issue` so drive-by stars convert
 4. **Add an `opencode` / `aider` CLI engine** — extend `_CLI_SPECS` in `services/engines/cli.py`.
 
 ## UX / frontend
-5. **Per-task engine selector** — let the user pick a different engine per document. `EngineManager` + generate call.
-6. **Inline Markdown editor** in the document viewer (Monaco-lite). `frontend/src/pages/Documents.tsx`.
+5. **Per-task engine selector** — let the user pick a different engine per document. `screens/Engines.tsx` + generate call.
+6. **Inline Markdown editor** in the document viewer (Monaco-lite). `frontend/src/screens/Documents.tsx`.
 7. **Copy-as-Claude-context button** — concatenate all docs into one system-prompt block.
 8. **Light theme** toggle. `frontend/src/index.css` already uses CSS vars.
 
@@ -22,7 +22,7 @@ file these as issues and label them `good first issue` so drive-by stars convert
 
 ## i18n
 12. **Translate the README** to a new language (`README.<lang>.md`).
-13. **Add a landing locale** — extend `landing/src/i18n/index.ts` + add `landing/src/pages/<lang>/index.astro`.
+13. **Add a landing locale** — extend the `I18N` dictionary in `landing/i18n.js` (app locales live in `frontend/src/i18n/dictionaries.ts`).
 
 ## Infra / docs
 14. **Add a healthcheck** to `docker-compose.yml` for the backend.

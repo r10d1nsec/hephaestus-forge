@@ -7,7 +7,7 @@ are welcome — from typos to new engines.
 
 - 🐛 **Report bugs** — open an issue with steps to reproduce.
 - ✨ **Add an engine** — the most valuable contribution (see below).
-- 🌍 **Translate** — add a `README.<lang>.md` and a landing locale in `landing/src/i18n/`.
+- 🌍 **Translate** — add a `README.<lang>.md` and landing strings in `landing/i18n.js`.
 - 📝 **Improve prompts** — wizard/generator prompts live in `backend/prompts/` (no code needed).
 - 📖 **Docs & examples**.
 
@@ -38,7 +38,7 @@ The engine abstraction is intentionally small. To add a provider:
    (implement `stream()` and `test_connection()`).
 2. Wire it into the factory in `backend/services/engines/__init__.py`.
 3. Add a test in `backend/tests/test_engines.py`.
-4. Expose it in the UI in `frontend/src/components/engines/EngineManager.tsx`.
+4. Expose it in the UI in `frontend/src/screens/Engines.tsx`.
 
 See [docs/ENGINES.md](docs/ENGINES.md) for the full contract.
 
@@ -99,7 +99,7 @@ def test_build_engine_mistral():
 Run `pytest -q` — green.
 
 **4. Surface it in the UI** — add an entry to `API_PROVIDERS` in
-`frontend/src/components/engines/EngineManager.tsx` (or a new tab for non-OpenAI-shaped providers).
+`frontend/src/screens/Engines.tsx` (or a new tab for non-OpenAI-shaped providers).
 
 **5. Try it live** — `./run.sh`, open Engines, paste a key, **Test**, **Use**, run the wizard. 🎉
 

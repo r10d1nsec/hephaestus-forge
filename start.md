@@ -42,9 +42,14 @@ OpenAI, Gemini, OpenAI-compatible). 100% local; nada sale de la máquina. Ningú
 
 ```
 backend/  (Python 3.11 · FastAPI · SQLModel/SQLite)   :8000
-frontend/ (React 18 · Vite · TS · Tailwind v4 · Zustand)  dev :5173 / run.sh :3000
-landing/  (Astro · i18n, 5 locales)                    dev :4321  → GitHub Pages
+frontend/ (React 18 · Vite · TS · Tailwind v4 · lucide · Geist)  dev :5173 / run.sh :3000
+landing/  (sitio estático HTML/CSS/JS · i18n por cliente, 5 idiomas)  → GitHub Pages
 ```
+
+> **Diseño (Claude Design, mayo 2026):** frontend y landing fueron rediseñados a calidad "Linear".
+> Tema forge premium (ember `#f97316` único acento, fuentes Geist/Geist Mono, tokens Tailwind v4 en
+> `frontend/src/index.css` y clases `.btn-primary`/`.ember-tile`/`.prose-forge`). Brief en
+> `docs/DESIGN_BRIEF.md`. El frontend del diseño se adoptó y se **recableó** a la API real.
 
 ### Engines (el núcleo) — `backend/services/engines/`
 - `base.py` — interfaz `Engine` (`stream()`, `test_connection()`, helper `complete()`, `flatten_to_prompt()`).
@@ -75,14 +80,17 @@ landing/  (Astro · i18n, 5 locales)                    dev :4321  → GitHub Pa
 ### Modelos — `backend/models/`
 `projects` → `sessions` (mensajes JSON por fase) → `documents` (Markdown versionado) · `settings` (clave-valor: engine activo, API keys solo locales).
 
-### Frontend i18n — `frontend/src/`
-- `i18n/index.ts` — `translations` (5 idiomas, claves planas tipo `dash.title`), `LANGS`, `LANG_LABELS`, `LANGUAGE_NAMES`.
-- `i18n/useT.ts` — hook `useT()` → `{ t, tList, lang, setLang, languageName }`. `t(key, {var})` interpola `{var}`.
-- `store/i18nStore.ts` — Zustand, persiste en `localStorage["hf_lang"]`, init: localStorage → navegador → `en` (default).
-- Selector de idioma en el sidebar (`App.tsx`).
-- Páginas: `Dashboard`, `NewIdea`, `Wizard` (barra de 5 fases), `Documents` (4 pestañas, Blueprint primero), `Settings`.
-- `components/engines/EngineManager.tsx` — panel BYO-Engine. CLIs: estado `no encontrado` (✗) / `detectado — sin verificar` (◌ ámbar) / `verificado ✓` (verde tras Test). **Detectado en PATH ≠ autenticado.**
-- `lib/api.ts` — cliente REST + `streamSSE` (parser SSE, soporta `body`).
+### Frontend — `frontend/src/` (post-rediseño)
+- **Navegación por estado** (`App.tsx`, sin react-router): `screen` + `project` + `generateOnEnter`. `Navigate = (s, {project, generate})`.
+- **i18n por Context** (no Zustand): `i18n/index.tsx` (`I18nProvider`/`useI18n`) + `i18n/dictionaries.ts` (5 idiomas, `en` define `TranslationKey`). Persiste en `localStorage["hf-app-lang"]`. `lib/lang.ts` → `LANGUAGE_NAMES` (code→nombre para el backend).
+- **Pantallas** en `screens/`: `Dashboard`, `NewIdea`, `Wizard` (barra de 5 fases + streaming SSE real), `Documents` (4 pestañas, Blueprint primero, render con `react-markdown` + `.prose-forge`), `Engines`.
+- **Componentes**: `Sidebar` (marca + nav + selector idioma), `ui.tsx` (`Button`/`Input`/`Select`/`Tabs`/`Badge`), `ProjectCard`, `EngineRow` (estados `notfound`/`detected`/`verified`).
+- `screens/Engines.tsx` — panel BYO-Engine recableado (detect/test/activate reales). **Detectado en PATH ≠ autenticado** → verde solo tras Test.
+- `lib/api.ts` — cliente REST + `streamSSE(path, onEvent, onDone, body?)`.
+
+### Landing — `landing/` (sitio estático)
+- `index.html` + `styles.css` + `main.js` + `i18n.js` + `assets/`. i18n por cliente (`localStorage["hf-lang"]`, sprite SVG de iconos). Sin build.
+- Deploy: `.github/workflows/pages.yml` sube `landing/` directamente a GitHub Pages.
 
 ---
 
@@ -101,7 +109,7 @@ docker compose -f docker-compose.full.yml up -d   # + Ollama con GPU
 ```bash
 cd backend && . .venv/bin/activate && uvicorn main:app --reload --port 8000
 cd frontend && npm run dev          # :5173
-cd landing && npm run dev           # :4321 (base raíz)
+cd landing && python3 -m http.server 4321   # sitio estático, sin build
 ```
 
 > ⚠️ El backend que arrancamos en sesiones SIN `--reload` no recoge cambios de código:
@@ -120,7 +128,7 @@ pytest tests/test_engines.py::test_build_engine_dispatch -q   # un solo test
 
 # Frontend / landing
 cd frontend && npm run build     # tsc -b + vite (type-check incluido)
-cd landing && npm run build      # Astro, 5 locales
+cd landing && python3 -m http.server 4321   # sitio estático (no requiere build)
 
 # Regenerar los ejemplos con el engine de Claude (consume cuota)
 cd backend && . .venv/bin/activate && PYTHONPATH=. python scripts_examples.py streakly
