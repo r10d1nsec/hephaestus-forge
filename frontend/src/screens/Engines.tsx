@@ -14,6 +14,7 @@ const CLI_META: { id: string; name: string }[] = [
   { id: "claude", name: "Claude Code" },
   { id: "codex", name: "Codex CLI" },
   { id: "gemini", name: "Gemini CLI" },
+  { id: "opencode", name: "opencode" },
 ];
 
 const API_PROVIDERS = [

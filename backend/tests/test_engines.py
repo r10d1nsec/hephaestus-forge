@@ -21,6 +21,7 @@ def test_build_engine_dispatch():
     assert isinstance(build_engine(EngineConfig(kind="api", provider="openai")), ApiEngine)
     assert isinstance(build_engine(EngineConfig(kind="ollama", provider="ollama")), OllamaEngine)
     assert isinstance(build_engine(EngineConfig(kind="cli", provider="claude")), CliEngine)
+    assert isinstance(build_engine(EngineConfig(kind="cli", provider="opencode")), CliEngine)
 
 
 def test_build_engine_rejects_unknown_kind():
@@ -30,7 +31,7 @@ def test_build_engine_rejects_unknown_kind():
 
 def test_detect_clis_shape():
     result = detect_clis()
-    assert set(result.keys()) == {"claude", "codex", "gemini"}
+    assert set(result.keys()) == {"claude", "codex", "gemini", "opencode"}
     assert all(isinstance(v, bool) for v in result.values())
 
 
