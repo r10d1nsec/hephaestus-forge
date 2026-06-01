@@ -28,6 +28,10 @@ _CLI_SPECS: dict[str, dict] = {
         "bin": "gemini",
         "args": lambda prompt: ["-p", prompt],
     },
+    "opencode": {
+        "bin": "opencode",
+        "args": lambda prompt: ["run", prompt],
+    },
 }
 
 
