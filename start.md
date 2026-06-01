@@ -11,6 +11,7 @@
 posts. Repo en vivo, landing en vivo con rediseño + demo GIF.
 
 **Hecho hoy:**
+- ✅ **Engine opencode añadido** (`opencode run "<prompt>"`) — issue #4 cerrado vía **PR #12** (merged). Respondido el review de m13v; multi-turno marcado como **non-goal** en `docs/ENGINES.md` (el filtro real es la forma de salida, no la sesión).
 - ✅ Rediseño premium (Claude Design) de **app + landing** aplicado y pusheado (recableado a la API real).
 - ✅ **Demo GIF profesional** (Playwright+ffmpeg) en el hero del README y en el showcase de la landing.
 - ✅ Imagen de marca como **social card (og/twitter) + banner** en la landing. Para el **social preview del repo**: subir `/home/r10d1n/Descargas/hephaestus-social-preview.jpg` (136 KB) en *Settings → General → Social preview* (la original pesaba >1 MB; esta ya está optimizada).
@@ -58,7 +59,7 @@ OpenAI, Gemini, OpenAI-compatible). 100% local; nada sale de la máquina. Ningú
 ## 2. Estado actual (qué está hecho y funciona)
 
 ✅ **Publicado y en vivo:**
-- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, ~13 commits). Issues+Discussions activos, 11 issues abiertos, roadmap fijado, homepage = landing.
+- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, 16 commits). Issues+Discussions activos, roadmap fijado (#11), homepage = landing.
 - Landing en vivo (sitio **estático** HTML/CSS/JS, con rediseño + demo GIF + social card): **https://r10d1nsec.github.io/hephaestus-forge/** (GitHub Pages vía `pages.yml`, redespliega en cada push a `landing/**`).
 - **Decisión: NO se usa Vercel.** Solo GitHub Pages.
 - **Rediseño aplicado** (Claude Design): app React+Tailwind v4 nivel "Linear" (Geist, ember único) recableada a la API real; landing rehecha como sitio estático. Brief en `docs/DESIGN_BRIEF.md`. Zips del diseño en raíz (gitignored).
@@ -92,7 +93,7 @@ landing/  (sitio estático HTML/CSS/JS · i18n por cliente, 5 idiomas)  → GitH
 - `base.py` — interfaz `Engine` (`stream()`, `test_connection()`, helper `complete()`, `flatten_to_prompt()`).
 - `api.py` — `ApiEngine`. Anthropic usa su SDK nativo; openai/gemini/openai-compatible usan el SDK de OpenAI con `base_url` (Gemini vía su endpoint OpenAI-compatible).
 - `ollama.py` — `OllamaEngine` (HTTP a `/api/chat`, `/api/tags`).
-- `cli.py` — `CliEngine`: subprocess de `claude -p … --output-format text`, `codex exec …`, `gemini -p …`. `detect_clis()` = `shutil.which`. **Solo en modo nativo** (los binarios viven en el host, no en Docker).
+- `cli.py` — `CliEngine`: subprocess de `claude -p … --output-format text`, `codex exec …`, `gemini -p …`, `opencode run …`. `detect_clis()` = `shutil.which`. **Solo en modo nativo** (los binarios viven en el host, no en Docker). El contrato es "prompt → documento por stdout" (forma de salida, no sesión multi-turno → non-goal documentado).
 - `__init__.py` — `build_engine(config)` factory + `load_active_engine(db)` (lee el engine activo de la tabla `settings`, key `active_engine`).
 
 ### Wizard — `backend/services/wizard_service.py`
