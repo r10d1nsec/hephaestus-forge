@@ -58,7 +58,7 @@ OpenAI, Gemini, OpenAI-compatible). 100% local; nada sale de la máquina. Ningú
 ## 2. Estado actual (qué está hecho y funciona)
 
 ✅ **Publicado y en vivo:**
-- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, ~18 commits). Issues+Discussions activos, 11 issues abiertos, roadmap fijado, homepage = landing.
+- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, ~13 commits). Issues+Discussions activos, 11 issues abiertos, roadmap fijado, homepage = landing.
 - Landing en vivo (sitio **estático** HTML/CSS/JS, con rediseño + demo GIF + social card): **https://r10d1nsec.github.io/hephaestus-forge/** (GitHub Pages vía `pages.yml`, redespliega en cada push a `landing/**`).
 - **Decisión: NO se usa Vercel.** Solo GitHub Pages.
 - **Rediseño aplicado** (Claude Design): app React+Tailwind v4 nivel "Linear" (Geist, ember único) recableada a la API real; landing rehecha como sitio estático. Brief en `docs/DESIGN_BRIEF.md`. Zips del diseño en raíz (gitignored).
