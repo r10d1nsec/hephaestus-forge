@@ -1,7 +1,43 @@
 # start.md — Estado del proyecto Hephaestus' Forge
 
-> Documento de handoff para futuras sesiones. Última actualización: 2026-05-31.
+> Documento de handoff para futuras sesiones. Última actualización: **2026-06-01 (mañana)**.
 > Léelo primero para retomar el contexto sin re-explorar todo.
+
+---
+
+## ▶ RETOMAR ESTA TARDE — Lanzamiento en curso (2026-06-01)
+
+**Dónde estamos:** lanzamos el repo esta mañana. Producto + assets listos; estamos publicando los
+posts. Repo en vivo, landing en vivo con rediseño + demo GIF.
+
+**Hecho hoy:**
+- ✅ Rediseño premium (Claude Design) de **app + landing** aplicado y pusheado (recableado a la API real).
+- ✅ **Demo GIF profesional** (Playwright+ffmpeg) en el hero del README y en el showcase de la landing.
+- ✅ Imagen de marca como **social card (og/twitter) + banner** en la landing. Para el **social preview del repo**: subir `/home/r10d1n/Descargas/hephaestus-social-preview.jpg` (136 KB) en *Settings → General → Social preview* (la original pesaba >1 MB; esta ya está optimizada).
+- ✅ README **EN/中文/ES** ampliados (beneficios, "por qué", comunidad, link a landing).
+- ✅ **10 good-first-issues** (#1–#10) + **roadmap fijado** (#11).
+- ✅ Pack de lanzamiento: `docs/launch/ANNOUNCEMENT.md` (copys EN+中文, **tuits ≤280**) y `docs/launch/PLAYBOOK.md`.
+
+**Estado de los posts:**
+- ✅ **Show HN** — publicado.
+- ✅ **X/Twitter** — hilo de 5 tuits (≤280, free-tier). El tuit 1 original se pasaba 31 car.; ya corregido en ANNOUNCEMENT.md §3.
+- ⛔ **r/LocalLLaMA** — el **AutoModerator lo retiró en 1 min** (cuenta nueva/poco karma + regla #4 self-promo). **NO repostear ahí.** Acción: modmail pidiendo aprobación (plantilla en el chat).
+
+**⏭️ Pendiente esta tarde (en orden):**
+1. **Publicar en subs amables con cuentas nuevas** (rara vez auto-eliminan). Usa el **cuerpo limpio** de ANNOUNCEMENT.md §2 (¡ojo!, en un intento el cuerpo perdió texto: debe decir *"Project Blueprint + PRD + Tech Spec + Estimation you feed to your coding agent"*, no "+ agent"):
+   - **r/selfhosted** (PASO 4 del playbook)
+   - **r/SideProject** — `I built Hephaestus' Forge — a self-hosted tool that interviews you about an idea and forges a build-ready spec (runs on your Claude Code/Codex/Gemini CLI or Ollama). MIT`
+   - **r/coolgithubprojects** — `[Python] Hephaestus' Forge — self-hosted "idea → build-ready spec" tool, runs on your own AI engine (Ollama/Claude Code/Codex). MIT`
+   - **r/opensource** — `Hephaestus' Forge — open-source, 100% local tool that turns a vague idea into a build-ready spec, on the AI engine you already have (MIT)`
+2. Si la cuenta de Reddit es muy nueva → **calentar karma** comentando antes en r/LocalLLaMA y r/selfhosted; reintentar LocalLLaMA en 1–2 días o esperar el modmail.
+3. **Responder TODOS los comentarios** de HN/X/Reddit (ventana crítica = lo que más mueve estrellas). No pedir upvotes. Texto nativo por sub.
+4. **Día +1:** r/ChatGPTCoding + PRs a awesome-lists. **Día +2:** 中文 (掘金/V2EX, texto en ANNOUNCEMENT.md §4). **Día +2–3:** Product Hunt.
+
+**Tareas que quedaron ofrecidas (no hechas):**
+- ⬜ **Cheat-sheet de respuestas a objeciones** ("¿en qué se diferencia de X?", "¿por qué no un system prompt?", privacidad, etc.) → generar y guardar en `docs/launch/REPLIES.md`.
+- ⬜ Actualizar `actions/deploy-pages` (aviso de Node 20→24, no urgente).
+
+**Métricas:** GitHub Insights → Traffic (Referring sites) · [star-history](https://star-history.com/#r10d1nsec/hephaestus-forge). Expectativa honesta: 200–2.000★ en semanas = lanzamiento sólido.
 
 ---
 
@@ -22,9 +58,10 @@ OpenAI, Gemini, OpenAI-compatible). 100% local; nada sale de la máquina. Ningú
 ## 2. Estado actual (qué está hecho y funciona)
 
 ✅ **Publicado y en vivo:**
-- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, 4 commits + este doc)
-- Landing en vivo: **https://r10d1nsec.github.io/hephaestus-forge/** (GitHub Pages vía Actions)
-- **Decisión: NO se usa Vercel.** Solo GitHub Pages. (El workflow `pages.yml` redespliega solo en cada push a `landing/**`.)
+- Repo público: **https://github.com/r10d1nsec/hephaestus-forge** (rama `main`, ~18 commits). Issues+Discussions activos, 11 issues abiertos, roadmap fijado, homepage = landing.
+- Landing en vivo (sitio **estático** HTML/CSS/JS, con rediseño + demo GIF + social card): **https://r10d1nsec.github.io/hephaestus-forge/** (GitHub Pages vía `pages.yml`, redespliega en cada push a `landing/**`).
+- **Decisión: NO se usa Vercel.** Solo GitHub Pages.
+- **Rediseño aplicado** (Claude Design): app React+Tailwind v4 nivel "Linear" (Geist, ember único) recableada a la API real; landing rehecha como sitio estático. Brief en `docs/DESIGN_BRIEF.md`. Zips del diseño en raíz (gitignored).
 - Cuenta GitHub: `r10d1nsec` · contacto: `r10d1n.sec@gmail.com`
 
 ✅ **Funciona end-to-end (verificado en vivo con el engine real de Claude):**
