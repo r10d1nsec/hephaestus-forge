@@ -120,38 +120,40 @@ installed on your host.
 
 ## 3. X / Twitter (thread)
 
-```
-1/ I kept giving my AI coding agent half-baked ideas and ending up in 3-hour
-refactors. So I built Hephaestus' Forge 🔥
+> Each tweet is ≤280 chars (free-tier safe). Attach the demo GIF to tweet 1; post 2–5 as replies.
 
-A self-hosted tool that *interviews* you about your idea, then forges a
-build-ready spec. And it runs on the AI you already have. 100% local. MIT.
+**Tweet 1** (attach the demo GIF):
+```
+I kept feeding my AI coding agent half-baked ideas → 3-hour refactors.
+
+So I built Hephaestus' Forge 🔥 a self-hosted tool that interviews you about your idea, then forges a build-ready spec. Runs on the AI you already have. 100% local. MIT.
 
 🌐 r10d1nsec.github.io/hephaestus-forge
-[attach demo gif]
+```
+**Tweet 2:**
+```
+The wedge: Bring Your Own Engine.
 
-2/ The wedge: Bring Your Own Engine.
+No vendor lock-in — it runs on the coding agents already in your PATH (Claude Code, Codex, Gemini CLI) plus Ollama and any OpenAI-compatible API. Your idea and keys never leave your machine.
+```
+**Tweet 3:**
+```
+A 5-phase wizard (Discovery → Audience → Solution-Fit → Scope → Constraints) lets it recommend the *right kind* of solution.
 
-No vendor lock-in. It runs on the coding agents already in your PATH — Claude
-Code, Codex, Gemini CLI — plus Ollama and any OpenAI-compatible API. Your idea
-and keys never leave your machine.
+For "git commits → daily standup" it says build an automation, not a web app. It stops you from over-building. 🧭
+```
+**Tweet 4:**
+```
+The output: a Project Blueprint + PRD + Tech Spec + honest Estimation — clean Markdown, export as ZIP, drop into your AI IDE as context.
 
-3/ A 5-phase wizard (Discovery → Audience → Solution-Fit → Scope → Constraints)
-means it can recommend the *right kind* of solution.
+Multilingual too (EN/中文/ES/FR/DE) — the language you pick drives the questions AND the docs.
+```
+**Tweet 5:**
+```
+Open source (MIT), built in the open. Adding a new engine is a ~20-min PR.
 
-For "git commits → daily standup", it tells you to build an automation, not a
-web app. It stops you from over-building. 🧭
+⭐ github.com/r10d1nsec/hephaestus-forge
 
-4/ The output: a Project Blueprint + PRD + Tech Spec + honest Estimation —
-clean Markdown, export as ZIP, drop straight into your AI IDE as context.
-
-Multilingual too (EN/中文/ES/FR/DE) — the language you pick drives the questions
-AND the docs.
-
-5/ It's open source (MIT) and built in the open. Adding a new engine is a
-~20-min PR.
-
-⭐ Repo: github.com/r10d1nsec/hephaestus-forge
 Would love your feedback 🙏
 ```
 
