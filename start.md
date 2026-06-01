@@ -34,8 +34,13 @@ posts. Repo en vivo, landing en vivo con rediseño + demo GIF.
 3. **Responder TODOS los comentarios** de HN/X/Reddit (ventana crítica = lo que más mueve estrellas). No pedir upvotes. Texto nativo por sub.
 4. **Día +1:** r/ChatGPTCoding + PRs a awesome-lists. **Día +2:** 中文 (掘金/V2EX, texto en ANNOUNCEMENT.md §4). **Día +2–3:** Product Hunt.
 
-**Tareas que quedaron ofrecidas (no hechas):**
-- ⬜ **Cheat-sheet de respuestas a objeciones** ("¿en qué se diferencia de X?", "¿por qué no un system prompt?", privacidad, etc.) → generar y guardar en `docs/launch/REPLIES.md`.
+**Hecho (sesión tarde 2026-06-01):**
+- ✅ **`docs/launch/REPLIES.md`** — cheat-sheet de 10 objeciones (vs ChatGPT, system prompt, "¿no lo hace ya mi agente?", privacidad, wrapper, engines/aider/opencode, monetización…) + one-liners. Munición para responder comentarios.
+- ✅ **`docs/launch/REDDIT_READY.md`** — cuerpos finales **nativos por sub** (r/selfhosted → r/SideProject → r/opensource → r/coolgithubprojects), listos para pegar. **Reddit al final**, publicar uno a uno y confirmar que sobrevive antes del siguiente. NO repostear en r/LocalLLaMA.
+
+**Pendiente:**
+- ⬜ **Responder comentarios HN/X** cuando lleguen (Step 2) — usar `REPLIES.md`. *Al cierre de la sesión aún no había comentarios.*
+- ⬜ **Publicar en Reddit** (Step 3) con los cuerpos de `REDDIT_READY.md` — lo hace el usuario, espaciado.
 - ⬜ Actualizar `actions/deploy-pages` (aviso de Node 20→24, no urgente).
 
 **Métricas:** GitHub Insights → Traffic (Referring sites) · [star-history](https://star-history.com/#r10d1nsec/hephaestus-forge). Expectativa honesta: 200–2.000★ en semanas = lanzamiento sólido.
